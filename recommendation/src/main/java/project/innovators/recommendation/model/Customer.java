@@ -18,13 +18,19 @@ public class Customer implements Serializable {
 
     @Column(name="firstname", length=50, nullable=false, unique=false)
     private String firstname;
+
+    @Column(name="lastname")
     private String lastname;
+
+    @Column(name="email")
     private String email;
+
+    // if @Column is not used, it refers to the
     private String password;
 
-//    @Transient // will not be persisted bcs age can be calculated from DOB
-    private int age;
-//    private Address address;
+    @OneToOne
+    @JoinColumn(name = "address_id")
+    private Address address;
 
 
 
