@@ -1,14 +1,9 @@
 package project.innovators.recommendation.model;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
 import javax.persistence.*;
 
 @Entity
 @Table(name="addresses")
-@Getter @Setter @NoArgsConstructor
 public class Address {
     @Id
     @GeneratedValue
@@ -21,4 +16,43 @@ public class Address {
 //    @OneToOne(mappedBy = "address")
 //    Customer customer;
 
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public String getStreet() {
+        return street;
+    }
+
+    public void setStreet(String street) {
+        this.street = street;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    public String getZip() {
+        return zip;
+    }
+
+    public void setZip(String zip) {
+        this.zip = zip;
+    }
 }
