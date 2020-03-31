@@ -13,6 +13,15 @@ public class Address {
     String state;
     String zip;
 
+    public String getAptNumber() {
+        return aptNumber;
+    }
+
+    public void setAptNumber(String aptNumber) {
+        this.aptNumber = aptNumber;
+    }
+
+    String aptNumber;
 //    @OneToOne(mappedBy = "address")
 //    Customer customer;
 

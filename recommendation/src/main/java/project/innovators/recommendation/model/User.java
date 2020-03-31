@@ -35,6 +35,22 @@ public class User {
     @JoinColumn(name = "address_id")
     private Address address;
 
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public UserCategory getUserCategory() {
+        return userCategory;
+    }
+
+    public void setUserCategory(UserCategory userCategory) {
+        this.userCategory = userCategory;
+    }
+
     public Long getId() {
         return id;
     }
