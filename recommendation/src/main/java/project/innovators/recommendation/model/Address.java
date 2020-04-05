@@ -5,25 +5,16 @@ import javax.persistence.*;
 @Entity
 @Table(name="addresses")
 public class Address {
+
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     long id;
     String street;
     String city;
     String state;
     String zip;
-
-    public String getAptNumber() {
-        return aptNumber;
-    }
-
-    public void setAptNumber(String aptNumber) {
-        this.aptNumber = aptNumber;
-    }
-
     String aptNumber;
-//    @OneToOne(mappedBy = "address")
-//    Customer customer;
+
 
     public long getId() {
         return id;
@@ -63,5 +54,25 @@ public class Address {
 
     public void setZip(String zip) {
         this.zip = zip;
+    }
+
+    public String getAptNumber() {
+        return aptNumber;
+    }
+
+    public void setAptNumber(String aptNumber) {
+        this.aptNumber = aptNumber;
+    }
+
+    @Override
+    public String toString() {
+        return "Address{" +
+                "id=" + id +
+                ", street='" + street + '\'' +
+                ", city='" + city + '\'' +
+                ", state='" + state + '\'' +
+                ", zip='" + zip + '\'' +
+                ", aptNumber='" + aptNumber + '\'' +
+                '}';
     }
 }

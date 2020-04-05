@@ -27,4 +27,12 @@ public class UserCategory {
     public void setUserType(String userType) {
         this.userType = userType;
     }
+
+    @Override
+    public String toString() {
+        return "UserCategory{" +
+                "id=" + id +
+                ", userType='" + userType + '\'' +
+                '}';
+    }
 }

@@ -2,6 +2,7 @@ package project.innovators.recommendation.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import project.innovators.recommendation.dao.IJdbcUserDao;
 import project.innovators.recommendation.dao.IUserDao;
 import project.innovators.recommendation.model.User;
 
@@ -15,9 +16,18 @@ public class UserServiceImpl implements IUserService {
     @Autowired
     private IUserDao userDao;
 
+    @Autowired
+    private IJdbcUserDao jdbcUserDao;
+
     @Transactional
     public User getUser(String email, String password) {
-        logger.info(">>>> Running adminService#getAdmin query");
+        logger.info(">>>> Running userService#getUser query");
         return  userDao.findByEmailAndPassword(email, password);
+    }
+
+    @Override
+    public void save(User user) {
+        logger.info(">>>> Running userService#save query");
+        jdbcUserDao.saveUser(user);
     }
 }

@@ -5,4 +5,6 @@ import project.innovators.recommendation.model.User;
 public interface IUserService {
 
     User getUser(String email, String password);
+
+    void save(User user);
 }

@@ -11,21 +11,25 @@
 <body>
     <jsp:include page="menu-template.jsp" />
 
-    <p>Hello User of type: ${user.userCategory.userType} whose email is ${user.email}</p>
+    <div class="container">
+        <br>
+        <br>
+        <p>Hello User of type: ${user.userCategory.userType} whose email is ${user.email}</p>
 
-    <c:if test="${logout} != null" >
-        &lt;%&ndash;TODO: ADD A CSS CLASS &ndash;%&gt;
-        <p class="flash-message">Logged out: ${logout}</p>
-    </c:if>
+        <c:if test="${logout} != null" >
+            &lt;%&ndash;TODO: ADD A CSS CLASS &ndash;%&gt;
+            <p class="flash-message">Logged out: ${logout}</p>
+        </c:if>
 
-    <%--<% if(request.getAttribute("logout") != null) { %>--%>
-        <%--<%= "Log out status: " + request.getAttribute("logout") %>--%>
-        <%--<% request.removeAttribute("logout"); %>--%>
-    <%--<% } %>--%>
-    <div class="container-fluid">
-        <div class="content">
-            <p class="main-title">Featured Item</p>
-            <img src="https://www.foxmovies.com/s3/dev-temp/en-US/__5baed4994fd08.jpg" alt="" class="img-responsive">
+        <%--<% if(request.getAttribute("logout") != null) { %>--%>
+            <%--<%= "Log out status: " + request.getAttribute("logout") %>--%>
+            <%--<% request.removeAttribute("logout"); %>--%>
+        <%--<% } %>--%>
+        <div class="container-fluid">
+            <div class="content">
+                <p class="main-title">Featured Item</p>
+                <img src="https://www.makdigitaldesign.com/wp-content/uploads/2020/02/ecommerce.png" alt="" class="img-responsive">
+            </div>
         </div>
     </div>
 

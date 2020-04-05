@@ -3,14 +3,13 @@ package project.innovators.recommendation.model;
 import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
-import java.io.Serializable;
 
 @Entity
 @Table(name = "users")
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name="firstname", length=50, nullable=false, unique=false)
@@ -24,14 +23,16 @@ public class User {
     private String password;
     private String phone;
 
-    @ManyToOne // by default userCategory_id is generated in the Users table
-    private UserCategory userCategory;
 
     @Column
     @ColumnDefault(value = "1")
     private int active;
 
-    @OneToOne
+    @ManyToOne//(cascade = CascadeType.ALL) // by default userCategory_id is generated in the Users table
+    @JoinColumn(name = "user_category_id", insertable = false, updatable = false)
+    private UserCategory userCategory;
+
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "address_id")
     private Address address;
 
@@ -105,5 +106,20 @@ public class User {
 
     public void setAddress(Address address) {
         this.address = address;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", firstname='" + firstname + '\'' +
+                ", lastname='" + lastname + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", phone='" + phone + '\'' +
+                ", userCategory=" + userCategory +
+                ", active=" + active +
+                ", address=" + address +
+                '}';
     }
 }

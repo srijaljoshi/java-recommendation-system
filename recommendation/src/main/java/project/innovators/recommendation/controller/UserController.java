@@ -3,10 +3,12 @@ package project.innovators.recommendation.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import project.innovators.recommendation.model.Address;
 import project.innovators.recommendation.model.User;
+import project.innovators.recommendation.model.UserCategory;
 import project.innovators.recommendation.service.IUserService;
 
 import javax.servlet.http.HttpSession;
@@ -73,7 +75,29 @@ public class UserController {
 
     @PostMapping("/signup")
     public String signupUser(@ModelAttribute("user") User user,
-                             @ModelAttribute("address")Address address) {
-        return "signup";
+                             @ModelAttribute("address")Address address,
+                             @ModelAttribute("userType")UserCategory userCategory,
+                             BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return "signup";
+        }
+        System.out.println(">>> Handling Signup post request");
+        System.out.println(">>> UserCategory " + userCategory);
+        System.out.println(">>> Address " + address);
+        System.out.println(">>> User " + user);
+        // set user address and category before saving
+        user.setAddress(address);
+        user.setUserCategory(userCategory);
+
+        userService.save(user);
+
+        User savedUser = userService.getUser(user.getEmail(), user.getPassword());
+
+        if (savedUser.getId() < 0) {
+            System.out.println(">>> User was not saved! " + user);
+            return "signup";
+        }
+
+        return "redirect:/";
     }
 }
