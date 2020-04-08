@@ -2,7 +2,7 @@
 <%@page isELIgnored="false" %>
 
 
-<c:if test="${sessionScope.user != null && sessionScope.user.userCategory.userType == 'user'}" >
+<c:if test="${sessionScope.user != null && sessionScope.user.userCategory.userType == 'customer'}" >
     <div class="navbar navbar-expand-sm bg-dark navbar-dark fixed-top">
         <div class="container-fluid">
               <div class="navbar-header">

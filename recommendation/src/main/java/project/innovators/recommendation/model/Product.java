@@ -13,12 +13,15 @@ public class Product {
 
     private String description;
     private double price;
+    private String imageUrl;
 
-    @OneToOne
+    @ManyToOne
+    @JoinColumn(name = "product_brand_id")
     private ProductBrand productBrand;
 
-    @ManyToMany(mappedBy = "product")
-    private Set<ProductCategory> productCategory = new HashSet<>();
+    @ManyToOne
+    @JoinColumn(name = "product_category_id")
+    private ProductCategory productCategory;
 
     public long getId() {
         return id;
@@ -44,11 +47,23 @@ public class Product {
         this.price = price;
     }
 
-    public Set<ProductCategory> getProductCategory() {
+    public ProductCategory getProductCategory() {
         return productCategory;
     }
 
-    public void setProductCategory(Set<ProductCategory> productCategory) {
+    public void setProductCategory(ProductCategory productCategory) {
         this.productCategory = productCategory;
+    }
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "id=" + id +
+                ", description='" + description + '\'' +
+                ", price=" + price +
+                ", imageUrl='" + imageUrl + '\'' +
+                ", productBrand=" + productBrand +
+                ", productCategory=" + productCategory +
+                '}';
     }
 }
