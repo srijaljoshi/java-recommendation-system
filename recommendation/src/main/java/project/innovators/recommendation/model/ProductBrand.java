@@ -12,6 +12,9 @@ public class ProductBrand {
     @Column(name = "brand_name")
     private String brandName;
 
+    public ProductBrand() {
+    }
+
     public ProductBrand(long id, String brandName) {
         this.id = id;
         this.brandName = brandName;

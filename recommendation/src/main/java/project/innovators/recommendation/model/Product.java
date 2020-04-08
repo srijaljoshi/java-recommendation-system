@@ -39,6 +39,22 @@ public class Product {
         this.description = description;
     }
 
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    public ProductBrand getProductBrand() {
+        return productBrand;
+    }
+
+    public void setProductBrand(ProductBrand productBrand) {
+        this.productBrand = productBrand;
+    }
+
     public double getPrice() {
         return price;
     }

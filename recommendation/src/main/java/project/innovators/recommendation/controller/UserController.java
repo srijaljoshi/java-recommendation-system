@@ -28,8 +28,9 @@ public class UserController {
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
-    public String login() {
-        return "login";
+    public String login(HttpSession session) {
+        if (session.getAttribute("user") == null) return "login";
+        return "redirect:/";
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
