@@ -29,7 +29,7 @@ public class UserServiceImpl implements IUserService {
     @Override
     public void save(User user) {
         logger.info(">>>> Running userService#save query");
-//        jdbcUserDao.saveUser(user);
-        userDao.save(user);
+        jdbcUserDao.saveUser(user);
+        //userDao.save(user);
     }
 }
