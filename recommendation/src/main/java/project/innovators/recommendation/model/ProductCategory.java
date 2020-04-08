@@ -38,4 +38,12 @@ public class ProductCategory {
     public void setName(String name) {
         this.name = name;
     }
+
+    @Override
+    public String toString() {
+        return "ProductCategory{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
+    }
 }

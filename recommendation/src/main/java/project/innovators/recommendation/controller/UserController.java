@@ -6,12 +6,11 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import project.innovators.recommendation.model.Address;
-import project.innovators.recommendation.model.User;
-import project.innovators.recommendation.model.UserCategory;
+import project.innovators.recommendation.model.*;
 import project.innovators.recommendation.service.IUserService;
 
 import javax.servlet.http.HttpSession;
+import java.util.List;
 import java.util.logging.Logger;
 
 @Controller
@@ -100,5 +99,14 @@ public class UserController {
         }
 
         return "redirect:/";
+    }
+
+    @GetMapping("/seller/{sellerId}/all_products")
+    public String sellerProducts(@PathVariable("sellerId") Long id, Model model) {
+
+        List<ProductCategory> sellerProductCategories = userService.getProductCategoriesBySeller(id);
+        System.out.println(">>> Got product categories belonging to seller " + sellerProductCategories);
+        model.addAttribute("sellerProductCategories", sellerProductCategories);
+        return "seller_products";
     }
 }

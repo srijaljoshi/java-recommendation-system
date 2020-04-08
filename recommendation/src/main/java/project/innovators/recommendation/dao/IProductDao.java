@@ -20,6 +20,6 @@ public interface IProductDao extends JpaRepository<Product, Long> {
     @Query("SELECT p FROM Product p inner join p.productCategory pc where pc.name = :prod_category_name")
     List<Product> findProductByProductCategory(@Param("prod_category_name") String category_name);
 
-    @Query("SELECT pc FROM Product p inner join p.productCategory pc on p.id = pc.id")
+    @Query("SELECT pc FROM Product p inner join p.productCategory pc")
     List<ProductCategory> getCategoriesForExistingProducts();
 }
