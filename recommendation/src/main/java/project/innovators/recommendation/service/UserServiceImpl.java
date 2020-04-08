@@ -5,9 +5,14 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import project.innovators.recommendation.dao.IJdbcUserDao;
 import project.innovators.recommendation.dao.IUserDao;
+import project.innovators.recommendation.model.Product;
+import project.innovators.recommendation.model.ProductCategory;
 import project.innovators.recommendation.model.User;
 
 import javax.transaction.Transactional;
+import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Logger;
 
 @Service
@@ -31,5 +36,19 @@ public class UserServiceImpl implements IUserService {
         logger.info(">>>> Running userService#save query");
         jdbcUserDao.saveUser(user);
         //userDao.save(user);
+    }
+
+    @Override
+    public List<ProductCategory> getProductCategoriesBySeller(Long id) {
+        List<ProductCategory> productCategories = new ArrayList<>();
+        List<Object[]> prodObjects = userDao.getProductCategoriesBySeller(id);
+//        prodObjects.stream().forEach(prodObject -> productCategories.add((ProductCategory) prodObject));
+        for (Object[] objects : prodObjects) {
+            long pc_id = ((BigInteger)objects[0]).longValue();
+            String pc_name = (String)objects[1];
+            productCategories.add(new ProductCategory(pc_id, pc_name));
+        }
+        return productCategories;
+
     }
 }
