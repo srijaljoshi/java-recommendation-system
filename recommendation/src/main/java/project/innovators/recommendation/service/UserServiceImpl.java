@@ -1,6 +1,7 @@
 package project.innovators.recommendation.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import project.innovators.recommendation.dao.IJdbcUserDao;
 import project.innovators.recommendation.dao.IUserDao;
@@ -29,5 +30,6 @@ public class UserServiceImpl implements IUserService {
     public void save(User user) {
         logger.info(">>>> Running userService#save query");
         jdbcUserDao.saveUser(user);
+        //userDao.save(user);
     }
 }
