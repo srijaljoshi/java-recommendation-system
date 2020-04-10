@@ -16,4 +16,6 @@ public interface IProductService {
     Product findById(long id);
 
     int saveProductUploadedBySeller(Product product);
+
+    List<Product> getProducts();
 }

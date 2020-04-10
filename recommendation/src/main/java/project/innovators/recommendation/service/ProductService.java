@@ -52,4 +52,9 @@ public class ProductService implements IProductService {
         }
         return 1;
     }
+
+    @Override
+    public List<Product> getProducts() {
+        return productDao.findAll();
+    }
 }

@@ -115,10 +115,12 @@ public class UserController {
     }
 
     @GetMapping("/seller/add_product")
-    public String addProduct(HttpSession session) {
+    public String addProduct(Model model, HttpSession session) {
         User user = (User) session.getAttribute("user");
-        if (user.getUserCategory().getUserType().equals("seller"))
+        if (user.getUserCategory().getUserType().equals("seller")) {
+            model.addAttribute("products", productService.getProducts());
             return "add_product";
+        }
         return "redirect:/";
     }
 
