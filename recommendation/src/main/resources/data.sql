@@ -6,7 +6,7 @@ INSERT INTO recommendation.addresses (id, apt_number, city, state, street, zip) 
 
 INSERT INTO recommendation.users (id, active, email, firstname, lastname, password, phone, address_id, user_category_id) VALUES (1, 1, 'admin@admin.com', 'admin', 'admin', 'admin', '7812409029', 1, 1);
 INSERT INTO recommendation.users (id, active, email, firstname, lastname, password, phone, address_id, user_category_id) VALUES (2, 1, 'srijal@user.com', 'srijal', 'joshi', 'srijal', '7812409030', 1, 2);
-INSERT INTO recommendation.users (id, active, email, firstname, lastname, password, phone, address_id, user_category_id) VALUES (3, 1, 'amol@user.com', 'amol', 'dulal', 'amol', '7812409031', 1, 3);
+INSERT INTO recommendation.users (id, active, email, firstname, lastname, password, phone, address_id, user_category_id) VALUES (3, 1, 'amol@seller.com', 'amol', 'dulal', 'amol', '7812409031', 1, 3);
 /*
 Learn more about our data:
 There are 15 product brands (Adidas,blowfish.....OSHKOSH BGOSH)

@@ -23,8 +23,8 @@ pageEncoding="ISO-8859-1" %>
                 <img src="${product.imageUrl}" class="img-thumbnail trailer-image">
                 <div class="product_description">
                     <p>${product.description}</p>
-                    <p>${product.price}</p>
-                    <p><a href="/products/${movie.id}" class="btn btn-default btn-sm">See Product Details</a></p>
+                    <p class="btn btn-block">${product.price}</p>
+                    <p><a href="/products/${product.id}/details" class="btn btn-default btn-sm">See Product Details</a></p>
                 </div>
             </div>
         </c:forEach>

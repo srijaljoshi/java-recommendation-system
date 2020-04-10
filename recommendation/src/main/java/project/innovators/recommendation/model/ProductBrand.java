@@ -35,4 +35,12 @@ public class ProductBrand {
     public void setBrandName(String brandName) {
         this.brandName = brandName;
     }
+
+    @Override
+    public String toString() {
+        return "ProductBrand{" +
+                "id=" + id +
+                ", brandName='" + brandName + '\'' +
+                '}';
+    }
 }

@@ -26,6 +26,13 @@ public class ProductsController {
         return "products";
     }
 
+    @GetMapping("/{id}/details")
+    public String productDetails(@PathVariable("id") long id, Model model) {
+        Product product = productService.findById(id);
+        model.addAttribute("product", product);
+        return "product_details";
+    }
+
     @GetMapping("/{product_category}")
     public ModelAndView findByProductCategory(@PathVariable("product_category") String prod_category, ModelAndView mav) {
         // check for errors here
