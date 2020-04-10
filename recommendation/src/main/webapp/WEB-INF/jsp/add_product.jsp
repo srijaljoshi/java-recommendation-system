@@ -46,7 +46,7 @@
                         <label for="productBrand">Product Brand</label>
                         <input type="text" name="brandName" class="form-control" id="productBrand" placeholder="Brand" >
                     </div>
-                    <button type="submit" class="btn btn-primary btn-sm">Submit</button>
+                    <button type="submit" class="btn btn-outline-primary btn-sm">Submit</button>
                 </form>
             </div>
             <div class="modal-footer">
@@ -118,10 +118,10 @@
             <div class="row">
                 <div class="col-md-3">
                     <input type="text" id="myInput" class="form-control" placeholder="Search Product"> <br>
-                    <input type="submit" class="btn btn-primary btn-sm">
+                    <input type="submit" class="btn btn-outline-success btn-sm">
 
                     <!-- Button trigger modal -->
-                    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal">
+                    <button type="button" class="btn btn-outline-primary btn-sm" data-toggle="modal" data-target="#exampleModal">
                         Add new Product
                     </button>
 
@@ -148,10 +148,10 @@
                 <th scope="row" id="productID">${product.id}</th>
                 <td>${product.description}</td>
                 <td>${product.price}</td>
-                <td>${product.productBrand.brand_name}</td>
+                <td>${product.productBrand.brandName}</td>
                 <td>${product.productCategory.name}</td>
-                <td><a class="btn btn-primary btn-sm btn-edit-movie"  data-toggle="modal" data-target="#exampleModal">Edit</a></td>
-                <td><a href="#" class="btn btn-danger btn-sm btn-delete-movie">Delete</a></td>
+                <td><a class="btn btn-outline-success btn-sm"  data-toggle="modal" data-target="#exampleModal">Edit</a></td>
+                <td><a href="#" class="btn btn-outline-danger btn-sm btn-delete-movie">Delete</a></td>
             </tr>
         </c:forEach>
         </tbody>
