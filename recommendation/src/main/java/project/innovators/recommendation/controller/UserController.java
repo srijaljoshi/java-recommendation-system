@@ -7,6 +7,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import project.innovators.recommendation.model.*;
+import project.innovators.recommendation.service.IProductService;
 import project.innovators.recommendation.service.IUserService;
 
 import javax.servlet.http.HttpSession;
@@ -20,6 +21,9 @@ public class UserController {
 
     @Autowired
     private IUserService userService;
+
+    @Autowired
+    private IProductService productService;
 
     @GetMapping("/u/login")
     public String index() {
@@ -109,4 +113,33 @@ public class UserController {
         model.addAttribute("sellerProductCategories", sellerProductCategories);
         return "seller_products";
     }
+
+    @GetMapping("/seller/add_product")
+    public String addProduct(HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        if (user.getUserCategory().getUserType().equals("seller"))
+            return "add_product";
+        return "redirect:/";
+    }
+
+    @PostMapping("/seller/add_product")
+    public String addProductToDatabase(@ModelAttribute("product") Product product,
+                                       @ModelAttribute("product_category") ProductCategory category,
+                                       @ModelAttribute("product_brand") ProductBrand brand,
+                                       RedirectAttributes flash) {
+
+        System.out.println(">>> " + product + "\n" + category + "\n" + brand);
+        product.setProductBrand(brand);
+        product.setProductCategory(category);
+        System.out.println(">>> " + product);
+        int savedToDb = productService.saveProductUploadedBySeller(product);
+        if (savedToDb > 0) {//return primary key
+            System.out.println(">>> Product uploaded to db");
+            flash.addFlashAttribute("uploadMessage", "added product to database");
+        } else {
+            flash.addFlashAttribute("uploadMessage", "Failed to upload product to database");
+        }
+        return "redirect:/seller/add_product";
+    }
+
 }
