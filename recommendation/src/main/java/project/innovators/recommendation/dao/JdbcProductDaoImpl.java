@@ -11,7 +11,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 @Repository
-public class JdbcProductDao {
+public class JdbcProductDaoImpl {
 
     @Autowired
     private JdbcTemplate db;

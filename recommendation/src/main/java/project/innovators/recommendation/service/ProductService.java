@@ -5,7 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import project.innovators.recommendation.dao.IProductDao;
-import project.innovators.recommendation.dao.JdbcProductDao;
+import project.innovators.recommendation.dao.JdbcProductDaoImpl;
 import project.innovators.recommendation.model.Product;
 import project.innovators.recommendation.model.ProductCategory;
 
@@ -21,7 +21,7 @@ public class ProductService implements IProductService {
     private IProductDao productDao;
 
     @Autowired
-    private JdbcProductDao jdbcProductDao;
+    private JdbcProductDaoImpl jdbcProductDao;
 
     @Override
     public List<Product> findByProductCategory(String prod_category) {
