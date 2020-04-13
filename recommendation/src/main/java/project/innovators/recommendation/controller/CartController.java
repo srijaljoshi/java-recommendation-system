@@ -3,6 +3,7 @@ package project.innovators.recommendation.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import project.innovators.recommendation.model.Cart;
 import project.innovators.recommendation.model.CartItem;
@@ -11,6 +12,9 @@ import project.innovators.recommendation.service.ICartItemService;
 import project.innovators.recommendation.service.ICartService;
 import project.innovators.recommendation.service.IProductService;
 import project.innovators.recommendation.service.IUserService;
+
+import javax.servlet.http.HttpSession;
+import java.util.List;
 
 @Controller
 @RequestMapping("/cart")
@@ -56,5 +60,22 @@ public class CartController {
         cartService.update(cart);
 //        System.out.println(">>> Built CartItem: " + cartItem);
         return cartItem;
+    }
+
+    @RequestMapping
+    public String index(HttpSession session, Model model) {
+        if(session.getAttribute("user") == null) return "redirect:/login";
+        Cart cart = (Cart)session.getAttribute("cart");
+        cart = cartService.findById(cart.getId());
+        List<CartItem> cartItemList = cartItemService.findByCart(cart);
+        model.addAttribute("cartItemList", cartItemList);
+        model.addAttribute("cart", cart);
+        System.out.println(">>> " + cart);
+        return "cart";
+    }
+
+    @RequestMapping(value = "/cart/remove/{cartItemId}", method = RequestMethod.DELETE)
+    public void delete(@PathVariable("cartItemId") Long cartItemId) {
+        cartItemService.deleteById(cartItemId);
     }
 }
