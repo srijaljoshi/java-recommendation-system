@@ -24,7 +24,7 @@ pageEncoding="ISO-8859-1" %>
                 <div class="product_description">
                     <p>${product.description}</p>
                     <p>${product.price}</p>
-                    <p><a href="/products/${movie.id}" class="btn btn-default btn-sm">See Product Details</a></p>
+                    <a href="/products/${product.id}/details" class="btn btn-outline-success btn-sm">See Product Details</a>
                 </div>
             </div>
         </c:forEach>

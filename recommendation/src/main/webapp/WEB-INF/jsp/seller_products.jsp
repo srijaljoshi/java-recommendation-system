@@ -6,19 +6,20 @@ pageEncoding="ISO-8859-1" %>
 <html lang="en">
 <head>
     <jsp:include page="template-imports.jsp" />
-    <title>Showing Products</title>
+    <title>Showing your Products</title>
 </head>
+
 <body>
 <jsp:include page="menu-template.jsp" />
 
 <br><br>
 <div class="container">
-    <h2 text="center">All the Product categories from which you can choose:</h2>
+    <h2 text="center">Here is the list of your products:</h2>
 
     <div class="container-fluid">
         <div class="row">
 
-            <c:forEach var="category" items="${availableCategories}" >
+            <c:forEach var="category" items="${sellerProductCategories}" >
                 <div class="col-md-3 col-xs-6">
                     <div class="product_description">
                         <a class="btn btn-outline-danger product-category-btn" href="/products/${category.name}">${category.name}</a>

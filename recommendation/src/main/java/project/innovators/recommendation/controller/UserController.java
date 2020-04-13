@@ -6,12 +6,13 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import project.innovators.recommendation.model.Address;
-import project.innovators.recommendation.model.User;
-import project.innovators.recommendation.model.UserCategory;
+import project.innovators.recommendation.model.*;
+import project.innovators.recommendation.service.ICartService;
+import project.innovators.recommendation.service.IProductService;
 import project.innovators.recommendation.service.IUserService;
 
 import javax.servlet.http.HttpSession;
+import java.util.List;
 import java.util.logging.Logger;
 
 @Controller
@@ -22,10 +23,11 @@ public class UserController {
     @Autowired
     private IUserService userService;
 
-    @GetMapping("/u/login")
-    public String index() {
-        return "login";
-    }
+    @Autowired
+    private IProductService productService;
+
+    @Autowired
+    private ICartService cartService;
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String login(HttpSession session) {
@@ -47,8 +49,25 @@ public class UserController {
                 return "redirect:login";
             } else {
                 session.setAttribute("user", user);
-                System.out.println(">>> Logged in successfully as " + user.getEmail());
-                System.out.println(">>> User Category is " + user.getUserCategory());
+
+                if (user.getUserCategory().getUserType().equalsIgnoreCase("customer")) {
+                    session.setAttribute("customer", user);
+                }
+
+                // TODO: Refactor to move cart elsewhere
+                // if cart for a user already exists, load it. else create new cart
+                // select cart from carts where user_id = current_user.id
+                Cart cart = userService.findCartForUser(user);
+
+                if (cart == null) {
+                    cart = createCartForUser(user);
+                    cartService.saveCartToDb(cart);
+                } else {
+                    System.out.println(">>> Found Cart for user: " + user.getEmail());
+                }
+                session.setAttribute("cart", cart);
+
+                System.out.println(">>> Saved cart to DATABASE!!!");
                 return "redirect:/"; // After successful login go to root
             }
         } catch (Exception e) {
@@ -58,6 +77,13 @@ public class UserController {
             System.out.println(">>> Error Model: " + redirectAttributes.getFlashAttributes());
             return "redirect:login";
         }
+    }
+
+    private Cart createCartForUser(User user) {
+        Cart cart = new Cart();
+        cart.setCustomer(user);
+        cart.setGrandTotal(0);
+        return cart;
     }
 
     @RequestMapping("/logout")
@@ -99,6 +125,46 @@ public class UserController {
             return "signup";
         }
 
+        return "redirect:/login";
+    }
+
+    @GetMapping("/seller/{sellerId}/all_products")
+    public String sellerProducts(@PathVariable("sellerId") Long id, Model model) {
+
+        List<ProductCategory> sellerProductCategories = userService.getProductCategoriesBySeller(id);
+        System.out.println(">>> Got product categories belonging to seller " + sellerProductCategories);
+        model.addAttribute("sellerProductCategories", sellerProductCategories);
+        return "seller_products";
+    }
+
+    @GetMapping("/seller/add_product")
+    public String addProduct(Model model, HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        if (user.getUserCategory().getUserType().equals("seller")) {
+            model.addAttribute("products", productService.getProducts());
+            return "seller_add_product";
+        }
         return "redirect:/";
     }
+
+    @PostMapping("/seller/add_product")
+    public String addProductToDatabase(@ModelAttribute("product") Product product,
+                                       @ModelAttribute("product_category") ProductCategory category,
+                                       @ModelAttribute("product_brand") ProductBrand brand,
+                                       RedirectAttributes flash) {
+
+        System.out.println(">>> " + product + "\n" + category + "\n" + brand);
+        product.setProductBrand(brand);
+        product.setProductCategory(category);
+        System.out.println(">>> " + product);
+        int savedToDb = productService.saveProductUploadedBySeller(product);
+        if (savedToDb > 0) {//return primary key
+            System.out.println(">>> Product uploaded to db");
+            flash.addFlashAttribute("uploadMessage", "added product to database");
+        } else {
+            flash.addFlashAttribute("uploadMessage", "Failed to upload product to database");
+        }
+        return "redirect:/seller/add_product";
+    }
+
 }

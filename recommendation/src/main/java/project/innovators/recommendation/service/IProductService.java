@@ -12,4 +12,10 @@ public interface IProductService {
     List<Product> findByProductCategory(String prod_category);
 
     Set<ProductCategory> getCategoriesForExistingProducts();
+
+    Product findById(long id);
+
+    int saveProductUploadedBySeller(Product product);
+
+    List<Product> getProducts();
 }

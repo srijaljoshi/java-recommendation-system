@@ -5,18 +5,19 @@
 <c:if test="${sessionScope.user != null && sessionScope.user.userCategory.userType == 'customer'}" >
     <div class="navbar navbar-expand-sm bg-dark navbar-dark fixed-top">
         <div class="container-fluid">
-              <div class="navbar-header">
-                    <a class="navbar-brand" href="/">Recommendation System E commerce</a>
-              </div>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
+            <div class="navbar-header">
+                <a class="navbar-brand" href="/">Recommendation System E commerce</a>
+            </div>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
             <div class="collapse navbar-collapse" id="collapsibleNavbar">
-            <ul class="nav navbar-nav ml-auto">
+                <ul class="nav navbar-nav ml-auto">
 
-                <li class="nav-item"><a class="nav-link" href="/products">Browse Products</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/products">Browse Products</a></li>
 
-                <li class="nav-item"><a class="nav-link" href="/search">Search</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/search">Search</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/cart">Cart</a></li>
 
                     <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">${sessionScope.user.firstname}</a>
@@ -25,6 +26,40 @@
                         <a class="dropdown-item" href="/u/order-history">View Order History</a>
                         <a class="dropdown-item" href="/logout">Logout</a>
                     </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</c:if>
+
+<c:if test="${sessionScope.user.userCategory.userType == 'seller'}" >
+    <div class="navbar navbar-expand-sm bg-dark navbar-dark fixed-top">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="/">Recommendation System E commerce</a>
+            </div>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="collapsibleNavbar">
+                <ul class="nav navbar-nav ml-auto">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">Products menu</a>
+                        <div class="dropdown-menu dropdown-menu-right">
+                            <a class="dropdown-item" href="/seller/${sessionScope.user.id}/all_products">Your products</a>
+                            <a class="dropdown-item" href="/seller/add_product">Add new product</a>
+                            <a class="dropdown-item" href="/seller/edit_product/product_id">Edit product</a>
+                        </div>
+                    </li>
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">${sessionScope.user.firstname}</a>
+                        <div class="dropdown-menu dropdown-menu-right">
+                            <a class="dropdown-item" href="/u/edit-profile">Edit Profile</a>
+                            <a class="dropdown-item" href="/u/order-history">View Order History</a>
+                            <a class="dropdown-item" href="/logout">Logout</a>
+                        </div>
                     </li>
                 </ul>
             </div>
@@ -44,9 +79,6 @@
           </button>
       <div class="collapse navbar-collapse" id="collapsibleNavbar">
           <ul class="nav navbar-nav ml-auto">
-        <li class="active">
-          <a class="nav-link" href="#">Home</a>
-        </li>
         <li class="nav-item">
           <a class="nav-link" href="/admin/manage_customers">Manage Customers</a>
         </li>
@@ -86,6 +118,28 @@
         <li class="nav-item">
           <a class="nav-link" href="/signup">Sign Up</a>
         </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/signup">Product</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/signup">Cart</a>
+            </li>
+
+            <li form class="form-inline my-2 my-lg-0">
+                <div class="input-group input-group-sm">
+                    <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="Search...">
+                    <div class="input-group-append">
+                        <button type="button" class="btn btn-secondary btn-number">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+                </div>
+                <a class="btn btn-success btn-sm ml-3" href="cart.html">
+                    <i class="fa fa-shopping-cart"></i> Cart
+                    <span class="badge badge-light">3</span>
+                </a>
+            </liform>
+
       </ul>
     </div>
     </nav>

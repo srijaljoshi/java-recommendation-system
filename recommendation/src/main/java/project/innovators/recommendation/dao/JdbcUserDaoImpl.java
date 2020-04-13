@@ -11,7 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 @Repository("jdbcUserDao")
-public class JdbcUserDao implements IJdbcUserDao {
+public class JdbcUserDaoImpl implements IJdbcUserDao {
 
     @Autowired
     JdbcTemplate jdbcTemplate;

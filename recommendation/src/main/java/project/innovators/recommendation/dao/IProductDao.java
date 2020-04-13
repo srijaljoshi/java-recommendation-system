@@ -20,6 +20,11 @@ public interface IProductDao extends JpaRepository<Product, Long> {
     @Query("SELECT p FROM Product p inner join p.productCategory pc where pc.name = :prod_category_name")
     List<Product> findProductByProductCategory(@Param("prod_category_name") String category_name);
 
-    @Query("SELECT pc FROM Product p inner join p.productCategory pc on p.id = pc.id")
+    @Query("SELECT pc FROM Product p inner join p.productCategory pc")
     List<ProductCategory> getCategoriesForExistingProducts();
+
+    @Query(value = "insert into products(description, image_url, price, product_category_id, product_brand_id) " +
+            "VALUES (?1, ?2, ?3, (select id from product_category where name=?4), (select id from product_brand where name=?5))",
+            nativeQuery = true)
+    void saveProduct(String description, String imageUrl, double price, String cat_id, String brand_id);
 }
