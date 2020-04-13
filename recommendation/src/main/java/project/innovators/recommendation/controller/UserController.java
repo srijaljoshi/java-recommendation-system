@@ -7,6 +7,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import project.innovators.recommendation.model.*;
+import project.innovators.recommendation.service.ICartService;
 import project.innovators.recommendation.service.IProductService;
 import project.innovators.recommendation.service.IUserService;
 
@@ -25,10 +26,8 @@ public class UserController {
     @Autowired
     private IProductService productService;
 
-    @GetMapping("/u/login")
-    public String index() {
-        return "login";
-    }
+    @Autowired
+    private ICartService cartService;
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String login(HttpSession session) {
@@ -50,8 +49,25 @@ public class UserController {
                 return "redirect:login";
             } else {
                 session.setAttribute("user", user);
-                System.out.println(">>> Logged in successfully as " + user.getEmail());
-                System.out.println(">>> User Category is " + user.getUserCategory());
+
+                if (user.getUserCategory().getUserType().equalsIgnoreCase("customer")) {
+                    session.setAttribute("customer", user);
+                }
+
+                // TODO: Refactor to move cart elsewhere
+                // if cart for a user already exists, load it. else create new cart
+                // select cart from carts where user_id = current_user.id
+                Cart cart = userService.findCartForUser(user);
+
+                if (cart == null) {
+                    cart = createCartForUser(user);
+                    cartService.saveCartToDb(cart);
+                } else {
+                    System.out.println(">>> Found Cart for user: " + user.getEmail());
+                }
+                session.setAttribute("cart", cart);
+
+                System.out.println(">>> Saved cart to DATABASE!!!");
                 return "redirect:/"; // After successful login go to root
             }
         } catch (Exception e) {
@@ -61,6 +77,13 @@ public class UserController {
             System.out.println(">>> Error Model: " + redirectAttributes.getFlashAttributes());
             return "redirect:login";
         }
+    }
+
+    private Cart createCartForUser(User user) {
+        Cart cart = new Cart();
+        cart.setCustomer(user);
+        cart.setGrandTotal(0);
+        return cart;
     }
 
     @RequestMapping("/logout")
@@ -102,7 +125,7 @@ public class UserController {
             return "signup";
         }
 
-        return "redirect:/";
+        return "redirect:/login";
     }
 
     @GetMapping("/seller/{sellerId}/all_products")
@@ -119,7 +142,7 @@ public class UserController {
         User user = (User) session.getAttribute("user");
         if (user.getUserCategory().getUserType().equals("seller")) {
             model.addAttribute("products", productService.getProducts());
-            return "add_product";
+            return "seller_add_product";
         }
         return "redirect:/";
     }

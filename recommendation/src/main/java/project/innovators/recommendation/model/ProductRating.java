@@ -2,6 +2,8 @@ package project.innovators.recommendation.model;
 
 
 import javax.persistence.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -48,6 +50,7 @@ public class ProductRating {
     @JoinColumn(name = "user_id")
     User user;
 
+    @Min(value = 0,  message = "The value must be positive") @Max(5)
     int rating;
 
     public ProductRating() {

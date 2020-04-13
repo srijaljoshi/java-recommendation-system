@@ -1,0 +1,34 @@
+package project.innovators.recommendation.service;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import project.innovators.recommendation.dao.ICartItemDao;
+import project.innovators.recommendation.model.CartItem;
+
+@Service
+public class CartItemServiceImpl implements ICartItemService {
+
+    @Autowired
+    private ICartItemDao cartItemDao;
+
+    @Override
+    public long addCartItem(CartItem cartItem) {
+        try {
+            cartItemDao.save(cartItem);
+            return cartItem.getId();
+        } catch (Exception e) {
+            System.out.println(">>> Exception in CartItemServiceImpl#addCartItem: " + e.getMessage());
+        }
+        return -1;
+    }
+
+    @Override
+    public long removeCartItem(CartItem cartItem) {
+        return 0;
+    }
+
+    @Override
+    public void save(CartItem cartItem) {
+        cartItemDao.save(cartItem);
+    }
+}

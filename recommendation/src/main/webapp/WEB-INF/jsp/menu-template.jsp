@@ -17,6 +17,7 @@
                     <li class="nav-item"><a class="nav-link" href="/products">Browse Products</a></li>
 
                     <li class="nav-item"><a class="nav-link" href="/search">Search</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/cart">Cart</a></li>
 
                     <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">${sessionScope.user.firstname}</a>
