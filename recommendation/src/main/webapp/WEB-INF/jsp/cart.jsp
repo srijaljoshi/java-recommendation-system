@@ -18,7 +18,7 @@ pageEncoding="ISO-8859-1" %>
         border-radius: 4px;
     }
 
-    .product {
+    .cartItem {
         padding: 10px;
         border: 2px solid grey;
         margin-bottom: 10px;
@@ -35,32 +35,38 @@ pageEncoding="ISO-8859-1" %>
 
 <div class="container container-fluid">
     <h2>${product.description}</h2>
-    <div class="row">
-        <div id="productContainer" class="offset-3 col-md-4 col-xs-6">
-            <c:forEach var="cartItem" items="${cartItemList}">
-                <div class="cartItem" data-id="${cartItem.id}">
-                    <img src="${cartItem.product.imageUrl}" class="img-thumbnail trailer-image">
-                    <div>
-                        <p>Price: ${cartItem.product.price}</p>
+    <form action="/cart/order-placed" method="post">
+        <div class="row">
+            <div id="productContainer" class="offset-3 col-md-4 col-xs-6">
+                <c:forEach var="cartItem" items="${cartItemList}">
+                    <div class="cartItem" data-id="${cartItem.id}">
+                        <img src="${cartItem.product.imageUrl}" class="img-thumbnail trailer-image">
                         <div>
-                            Quantity: <input id="btnQuantity" type="number" min="1" max="10" class="quantityInput" value="${cartItem.quantity}" data-price="${product.price}">
+                            <p>Price: ${cartItem.product.price}</p>
+                            <div>
+                                Quantity: <input id="btnQuantity" type="number" min="1" max="10" class="quantityInput" value="${cartItem.quantity}" data-price="${product.price}">
+                                <button type="button" id="btnUpdateQuantity" class="btn btn-outline-info btn-sm">Update</button>
+                            </div>
+                            <br>
+                            <p id="totalPrice">Total Price: $${cartItem.totalPrice}</p>
+                            <button type="button" class="btn btn-outline-danger btn-sm btnRemoveProduct">Remove from cart</button>
+                            <br>
+                            <br><br>
+                            <div data-productid="${product.id}" data-userid="${sessionScope.user.id}"  data-cartid="${sessionScope.cart.id}" id="paramsDiv" ></div>
                         </div>
-                        <p>Total Price: ${cartItem.totalPrice}</p>
-                        <br>
-                        <button class="btn btn-outline-danger btn-sm btnRemoveProduct">Remove from cart</button>
-                        <div data-productid="${product.id}" data-userid="${sessionScope.user.id}"  data-cartid="${sessionScope.cart.id}" id="paramsDiv" ></div>
                     </div>
-                </div>
-            </c:forEach>
+                </c:forEach>
 
-            <p id="grandTotal" class="align-content-center text-center" data-grandTotal="${cart.grandTotal}">Grand total = ${cart.grandTotal}</p>
-            <br>
-            <br>
-            <c:if test="${cartItemList.size() > 0}">
-                <button id="placeOrder" class="btn btn-outline-success">Place Order</button>
-            </c:if>
+                <br>
+                <h4 id="grandTotal" class="align-content-center" data-grandTotal="${cart.grandTotal}">Grand total = $${cart.grandTotal}</h4>
+                <br>
+                <br>
+                <c:if test="${cartItemList.size() > 0}">
+                    <button id="placeOrder" type="submit" class="btn btn-outline-success">Place Order</button>
+                </c:if>
+            </div>
         </div>
-    </div>
+    </form>
 </div>
 </body>
 
@@ -73,20 +79,35 @@ pageEncoding="ISO-8859-1" %>
 
     var paramsdiv = $("#paramsDiv");
     var product_id = paramsdiv.data('productid');
-
+    let cartItemId = $(".cartItem").data('id');
 
     let user_id = paramsdiv.data('userid');
     let cart_id = paramsdiv.data('cartid');
     let total, quantity;
 
+    let totalPrice = document.getElementById('totalPrice');
+    let price = $("#btnQuantity").data('price');
     $("#btnQuantity").click(function () {
-        let totalPrice = document.getElementById('totalPrice');
         quantity = $(this).val();
-        total = parseFloat($(this).data('price')) * parseInt(quantity);
+
+        total = parseFloat(totalPrice.innerHTML) * parseInt(quantity);
         totalPrice.innerHTML = 'Total price: ' + total.toFixed(2);
     });
 
-    let cartItemId = $("cartItem").data('id');
+    $("#btnUpdateQuantity").click(function () {
+        $.ajax({
+            'url': '/cart/update/' + cartItemId,
+            'type': 'PUT',
+            'data': {
+                'quantity': quantity
+            },
+            success: function (resp) {
+                confirm("Are you sure?");
+                alert(resp);
+                totalPrice.innerHTML = "Total price: " +  price;
+            }
+        });
+    });
 
     $(".btnRemoveProduct").click(function () {
         let conf = confirm("Sure?");

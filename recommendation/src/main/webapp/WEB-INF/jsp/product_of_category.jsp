@@ -19,14 +19,25 @@ pageEncoding="ISO-8859-1" %>
     <div class="row">
 
         <c:forEach var="product" items="${productsModel}" >
-            <div class="col-md-3 col-xs-6">
-                <img src="${product.imageUrl}" class="img-thumbnail trailer-image">
-                <div class="product_description">
-                    <p>${product.description}</p>
-                    <p>${product.price}</p>
-                    <a href="/products/${product.id}/details" class="btn btn-outline-success btn-sm">See Product Details</a>
+            <div class="col-10 col-md-4 col-lg-3">
+                <div class="card">
+                    <img class="card-img-top img-fluid" src="${product.imageUrl}">
+                    <div class="card-body">
+                        <h4 class="card-title"><a href="product.html" title="View Product">${product.description}</a></h4>
+                        <p class="card-text">${product.description}</p>
+                        <div class="row">
+                            <div class="col">
+                                <p class="btn btn-danger btn-block btn-sm">$${product.price}</p>
+                            </div>
+                            <div class="col">
+                                <a href="/products/${product.id}/details" class="btn btn-outline-success btn-sm">See Product Details</a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
+
+
         </c:forEach>
     </div>
 </div>

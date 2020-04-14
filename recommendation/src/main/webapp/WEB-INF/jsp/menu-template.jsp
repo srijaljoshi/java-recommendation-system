@@ -17,16 +17,33 @@
                     <li class="nav-item"><a class="nav-link" href="/products">Browse Products</a></li>
 
                     <li class="nav-item"><a class="nav-link" href="/search">Search</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/cart">Cart</a></li>
 
                     <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">${sessionScope.user.firstname}</a>
-                    <div class="dropdown-menu dropdown-menu-right">
-                        <a class="dropdown-item" href="/u/edit-profile">Edit Profile</a>
-                        <a class="dropdown-item" href="/u/order-history">View Order History</a>
-                        <a class="dropdown-item" href="/logout">Logout</a>
-                    </div>
+                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">${sessionScope.user.firstname}</a>
+                        <div class="dropdown-menu dropdown-menu-right">
+                            <a class="dropdown-item" href="/u/edit-profile">Edit Profile</a>
+                            <a class="dropdown-item" href="/u/order-history">View Order History</a>
+                            <a class="dropdown-item" href="/logout">Logout</a>
+                        </div>
                     </li>
+
+                    <li>
+
+                        <form class="form-inline my-2 my-lg-0">
+                            <div class="input-group input-group-sm">
+                                <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="Search...">
+                                <div class="input-group-append">
+                                    <button type="button" id="btnSearchProduct" class="btn btn-secondary btn-number">
+                                        <i class="fa fa-search"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <a class="btn btn-success btn-sm ml-3" href="/cart">
+                                <i class="fa fa-shopping-cart"></i> Cart
+                            </a>
+                        </form>
+                    </li>
+
                 </ul>
             </div>
         </div>
@@ -109,23 +126,14 @@
     <div class="collapse navbar-collapse" id="collapsibleNavbar">
 
         <ul class="nav navbar-nav ml-auto">
-        <li class="active">
-          <a class="nav-link" href="/">Home</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/login">Log In</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/signup">Sign Up</a>
-        </li>
             <li class="nav-item">
-                <a class="nav-link" href="/signup">Product</a>
+              <a class="nav-link" href="/login">Log In</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="/signup">Cart</a>
+              <a class="nav-link" href="/signup">Sign Up</a>
             </li>
-
-            <li form class="form-inline my-2 my-lg-0">
+            <li>
+            <form class="form-inline my-2 my-lg-0">
                 <div class="input-group input-group-sm">
                     <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="Search...">
                     <div class="input-group-append">
@@ -134,11 +142,12 @@
                         </button>
                     </div>
                 </div>
-                <a class="btn btn-success btn-sm ml-3" href="cart.html">
+                <a class="btn btn-success btn-sm ml-3" href="/login">
                     <i class="fa fa-shopping-cart"></i> Cart
-                    <span class="badge badge-light">3</span>
+                    <span class="badge badge-light">0</span>
                 </a>
-            </liform>
+            </form>
+            </li>
 
       </ul>
     </div>

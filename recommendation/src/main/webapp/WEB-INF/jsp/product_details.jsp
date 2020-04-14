@@ -13,7 +13,7 @@ pageEncoding="ISO-8859-1" %>
     .quantityInput {
         padding: 5px;
         width: 3em;
-        height: 1.5em;
+        height: 2em;
         border: 2px solid rgba(49,200,100,0.7);
         border-radius: 4px;
     }
@@ -23,34 +23,73 @@ pageEncoding="ISO-8859-1" %>
 
 <br><br>
 <br><br>
+
 <div class="row">
 <div class="offset-3 col-md-6 text-center" id="addProductContainer"></div>
 </div>
-<div class="container container-fluid">
-    <h2>${product.description}</h2>
-    <div class="row">
-        <div id="productContainer" class="col-md-3 col-xs-6">
-                <img src="${product.imageUrl}" class="img-thumbnail trailer-image">
-                <div class="product_description">
-                    <p>Description: ${product.description}</p>
-                    <p>Price: ${product.price}</p>
-                    <div>
-                        Quantity: <input id="btnQuantity" type="number" min="1" max="10" class="quantityInput" value="1" data-price="${product.price}">
-                    </div>
-                    <p id="totalPrice">Total price: ${product.price}</p>
-                    <br>
-                    <div><button class="btn btn-outline-success btn-sm" id="btnAddProduct">Add to cart</button></div>
-                    <div data-productid="${product.id}" data-userid="${sessionScope.user.id}"  data-cartid="${sessionScope.cart.id}" id="paramsDiv" ></div>
 
-                    <c:if test="${sessionScope.user.userCategory.userType == 'seller'}">
-                        <div>
-                            <a href="/products/${product.id}/edit">Edit</a>
-<!--                            TODO: implement bootstrap modal here to update the product -->
+
+
+<div class="container container-fluid">
+
+    <div class="row">
+        <div id="productContainer"  class="col-6 col-md-4 col-xs-6">
+            <div class="card">
+                <img class="card-img-top img-fluid" src="${product.imageUrl}">
+                <div class="card-body">
+                    <div class="product_description">
+                        <h4 class="card-title">${product.description}</h4>
+                        <p class="card-text">${product.description}</p>
+
+                        <div class="row">
+                            <div class="col">
+                                <p id="totalPrice" class="btn btn-danger btn-block btn-sm">$${product.price}</p>
+                            </div>
+                            <div class="col">
+                                <input id="btnQuantity" type="number" min="1" max="10" class="quantityInput" value="1" data-price="${product.price}">
+                            </div>
+                            <div class="col">
+                                <div><button class="btn btn-outline-success btn-sm" id="btnAddProduct">Add to cart</button></div>
+                            </div>
+                            <div data-productid="${product.id}" data-userid="${sessionScope.user.id}"  data-cartid="${sessionScope.cart.id}" id="paramsDiv" ></div>
+                            <c:if test="${sessionScope.user.userCategory.userType == 'seller'}">
+                                <div>
+                                    <a href="/products/${product.id}/edit">Edit</a>
+                                    <!--                            TODO: implement bootstrap modal here to update the product -->
+                                </div>
+                            </c:if>
                         </div>
-                    </c:if>
+                    </div>
                 </div>
             </div>
+        </div>
+
+<!--        TODO: suggest for multiple close neighbor products -->
+
+        <div id="suggestedProductContainer" class="offset-5 col-4 col-md-3 col-xs-6">
+            <h4>Suggested Items:</h4>
+            <div class="card">
+                <img class="card-img-top img-fluid" src="${product.imageUrl}">
+                <div class="card-body">
+                    <div class="product_description">
+                        <h4 class="card-title">${product.description}</h4>
+                        <p class="card-text">${product.description}</p>
+
+                        <div class="row">
+                            <div class="col">
+                                <p class="btn btn-danger btn-block btn-sm">$${product.price}</p>
+                            </div>
+                            <div class="col">
+                                <div><a class="btn btn-outline-success btn-sm" href="/products/${product.id}/details">Details</a></div>
+                            </div>
+                            <div data-productid="${product.id}" data-userid="${sessionScope.user.id}"  data-cartid="${sessionScope.cart.id}" id="paramsDiv" ></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
+
 </div>
 </body>
 
@@ -71,10 +110,10 @@ pageEncoding="ISO-8859-1" %>
         let totalPrice = document.getElementById('totalPrice');
         quantity = $(this).val();
         total = parseFloat($(this).data('price')) * parseInt(quantity);
-        totalPrice.innerHTML = 'Total price: ' + total.toFixed(2);
+        totalPrice.innerHTML = '$' + total.toFixed(2);
     });
 
-
+    let counter = 0;
     $("#btnAddProduct").click(function () {
         window.product_id = product_id;
         // alert(`Product id: ${product_id}`);

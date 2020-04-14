@@ -44,4 +44,14 @@ public class CartItemServiceImpl implements ICartItemService {
     public void deleteById(Long cartItemId) {
         cartItemDao.deleteById(cartItemId);
     }
+
+    @Override
+    public Integer updateQuantityForCartWithId(Long cartItemId, Integer quantity) {
+        return cartItemDao.updateCartForCartWithId(cartItemId, quantity);
+    }
+
+    @Override
+    public CartItem findById(Long id) {
+        return cartItemDao.findCartItemById(id);
+    }
 }
