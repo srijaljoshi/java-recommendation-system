@@ -5,9 +5,11 @@ import org.springframework.stereotype.Repository;
 import project.innovators.recommendation.model.Cart;
 import project.innovators.recommendation.model.User;
 
+import java.util.List;
+
 @Repository
 public interface ICartDao extends CrudRepository<Cart, Long> {
     Cart findCartById(long id);
 
-    Cart findCartByCustomer(User user);
+    List<Cart> findCartByCustomer(User user);
 }

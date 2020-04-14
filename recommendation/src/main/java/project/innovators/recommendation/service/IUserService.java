@@ -14,5 +14,5 @@ public interface IUserService {
 
     List<ProductCategory> getProductCategoriesBySeller(Long id);
 
-    Cart findCartForUser(User user);
+    List<Cart> findCartForUser(User user);
 }

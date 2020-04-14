@@ -7,7 +7,7 @@
 <head>
     <jsp:include page="template-imports.jsp" />
     <title>Recommendation System</title>
-        <link rel="stylesheet" href="/css/homepage.css">
+        <link rel="stylesheet" href="../../../resources/static/css/homepage.css">
 </head>
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
 <body>
@@ -18,16 +18,6 @@
 
     <br>
     <br>
-    <p>Hello User of type: ${user.userCategory.userType} whose email is ${user.email}</p>
-<c:if test="${logout} != null" >
-&lt;%&ndash;TODO: ADD A CSS CLASS &ndash;%&gt;
-<p class="flash-message">Logged out: ${logout}</p>
-</c:if>
-
-<%--<% if(request.getAttribute("logout") != null) { %>--%>
-<%--<%= "Log out status: " + request.getAttribute("logout") %>--%>
-<%--<% request.removeAttribute("logout"); %>--%>
-<%--<% } %>--%>
 
     <h1 class="jumbotron-heading">E-COMMERCE CATEGORY</h1>
 <p class="lead text-muted mb-0">Buy our products. Project available in Github. Link: </p>
@@ -103,6 +93,7 @@
 </div>
 </div>
 </div>
+
 <div class="col-12 col-md-6 col-lg-4">
     <div class="card">
     <img class="card-img-top" src="https://images-na.ssl-images-amazon.com/images/I/71o6haTjnQL._AC_UY695_.jpg" alt="Card image cap">
@@ -120,6 +111,8 @@
 </div>
 </div>
 </div>
+
+
 <div class="col-12 col-md-6 col-lg-4">
     <div class="card">
     <img class="card-img-top" src="https://m.media-amazon.com/images/I/51hMUmm8lGL._AC_UL320_ML3_.jpg" alt="Card image cap">
