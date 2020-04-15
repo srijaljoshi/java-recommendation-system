@@ -104,15 +104,22 @@ pageEncoding="ISO-8859-1" %>
 
     let user_id = paramsdiv.data('userid');
     let cart_id = paramsdiv.data('cartid');
-    let total, quantity;
+
+    let quantity = $("#btnQuantity").val();
 
     // get the count from the number input
+    quantity = quantity;
+    if (quantity == NaN) {
+        quantity = 0;
+    }
 
-    $("#btnQuantity").click(function () {
-        let totalPrice = document.getElementById('totalPrice');
+    let total = parseFloat($("#btnQuantity").data('price')) * parseInt(quantity);
+
+    $("#btnQuantity").on('keyup mouseup', function () {
         quantity = $(this).val();
+        quantity = isNaN(quantity) ? 0 : quantity;
         total = parseFloat($(this).data('price')) * parseInt(quantity);
-        totalPrice.innerHTML = '$' + total.toFixed(2);
+        $("#totalPrice").text('$' + total.toFixed(2));
     });
 
     let counter = 0;
