@@ -92,9 +92,20 @@ public class CartController {
         return "cart";
     }
 
-    @RequestMapping(value = "/cart/remove/{cartItemId}", method = RequestMethod.DELETE)
-    public void delete(@PathVariable("cartItemId") Long cartItemId) {
+    @RequestMapping(value = "/remove/{cartItemId}", method = RequestMethod.DELETE)
+    @ResponseBody
+    public Cart delete(@PathVariable("cartItemId") Long cartItemId, HttpSession session) {
+        // update grandTotal and delete the cartItem
+        Cart currentCart = (Cart)session.getAttribute("cart");
+        currentCart = cartService.findById(currentCart.getId());
+        for (CartItem cartItem : currentCart.getCartItemList()) {
+            if (cartItem.getId() == cartItemId) {
+                currentCart.setGrandTotal(Math.round(currentCart.getGrandTotal() - TAX * cartItem.getTotalPrice()));
+                cartService.update(currentCart);
+            }
+        }
         cartItemService.deleteById(cartItemId);
+        return currentCart;
     }
 
     @RequestMapping(value = "/update/{cartItemId}", method = RequestMethod.PUT)
