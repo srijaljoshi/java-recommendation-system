@@ -106,6 +106,8 @@ pageEncoding="ISO-8859-1" %>
     let cart_id = paramsdiv.data('cartid');
     let total, quantity;
 
+    // get the count from the number input
+
     $("#btnQuantity").click(function () {
         let totalPrice = document.getElementById('totalPrice');
         quantity = $(this).val();

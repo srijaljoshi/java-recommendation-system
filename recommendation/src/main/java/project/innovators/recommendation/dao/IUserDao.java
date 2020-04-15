@@ -18,6 +18,7 @@ public interface IUserDao extends JpaRepository<User, Long> {
     //    @Query("SELECT pc FROM Product p INNER JOIN p.productCategory pc  ")
     @Query(value = "select pc.id, pc.name from product_category pc join products p on pc.id = p.product_category_id join product_user pu on pu.pid = p.id where pu.uid = :user_id", nativeQuery = true)
     List<Object[]> getProductCategoriesBySeller(@Param("user_id") Long id);
+
 //    Admin getAdmin(String email, String password);
 //    void addProduct(Product product);
 //    Product findProductById(long productId);

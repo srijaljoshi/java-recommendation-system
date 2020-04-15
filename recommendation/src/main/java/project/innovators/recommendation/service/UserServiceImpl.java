@@ -4,12 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import project.innovators.recommendation.dao.ICartDao;
+import project.innovators.recommendation.dao.ICustomerOrderDao;
 import project.innovators.recommendation.dao.IJdbcUserDao;
 import project.innovators.recommendation.dao.IUserDao;
-import project.innovators.recommendation.model.Cart;
-import project.innovators.recommendation.model.Product;
-import project.innovators.recommendation.model.ProductCategory;
-import project.innovators.recommendation.model.User;
+import project.innovators.recommendation.model.*;
 
 import javax.transaction.Transactional;
 import java.math.BigInteger;
@@ -29,6 +27,9 @@ public class UserServiceImpl implements IUserService {
 
     @Autowired
     private ICartDao cartDao;
+
+    @Autowired
+    private ICustomerOrderDao customerOrderDao;
 
     @Transactional
     public User getUser(String email, String password) {
@@ -59,5 +60,10 @@ public class UserServiceImpl implements IUserService {
     @Override
     public List<Cart> findCartForUser(User user) {
         return cartDao.findCartByCustomer(user);
+    }
+
+    @Override
+    public List<CustomerOrder> getCustomerOrders(User customer) {
+        return customerOrderDao.getCustomerOrderByCustomer(customer);
     }
 }

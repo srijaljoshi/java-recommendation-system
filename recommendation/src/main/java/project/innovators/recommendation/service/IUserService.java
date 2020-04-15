@@ -1,6 +1,7 @@
 package project.innovators.recommendation.service;
 
 import project.innovators.recommendation.model.Cart;
+import project.innovators.recommendation.model.CustomerOrder;
 import project.innovators.recommendation.model.ProductCategory;
 import project.innovators.recommendation.model.User;
 
@@ -15,4 +16,6 @@ public interface IUserService {
     List<ProductCategory> getProductCategoriesBySeller(Long id);
 
     List<Cart> findCartForUser(User user);
+
+    List<CustomerOrder> getCustomerOrders(User customer);
 }

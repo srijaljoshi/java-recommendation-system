@@ -10,13 +10,6 @@ pageEncoding="ISO-8859-1" %>
 </head>
 
 <style>
-    .quantityInput {
-        padding: 5px;
-        width: 3em;
-        height: 1.5em;
-        border: 2px solid rgba(49,200,100,0.7);
-        border-radius: 4px;
-    }
 
     .orderSummary {
         padding: 10px;
@@ -54,7 +47,5 @@ pageEncoding="ISO-8859-1" %>
 </div>
 
 
-
-
-</script>
+</body>
 </html>
