@@ -1,5 +1,6 @@
 package project.innovators.recommendation.service;
 
+import project.innovators.recommendation.model.Cart;
 import project.innovators.recommendation.model.ProductCategory;
 import project.innovators.recommendation.model.User;
 
@@ -12,4 +13,6 @@ public interface IUserService {
     void save(User user);
 
     List<ProductCategory> getProductCategoriesBySeller(Long id);
+
+    List<Cart> findCartForUser(User user);
 }

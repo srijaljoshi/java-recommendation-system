@@ -8,7 +8,6 @@ pageEncoding="ISO-8859-1" %>
     <jsp:include page="template-imports.jsp" />
     <title>Showing Products</title>
 </head>
-
 <body>
 <jsp:include page="menu-template.jsp" />
 

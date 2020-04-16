@@ -1,8 +1,10 @@
 package project.innovators.recommendation.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -35,6 +37,10 @@ public class User {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "address_id")
     private Address address;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "customer", fetch = FetchType.LAZY)
+    private List<Cart> cart;
 
     public String getPhone() {
         return phone;
@@ -121,5 +127,13 @@ public class User {
                 ", active=" + active +
                 ", address=" + address +
                 '}';
+    }
+
+    public List<Cart> getCart() {
+        return cart;
+    }
+
+    public void setCart(List<Cart> cart) {
+        this.cart = cart;
     }
 }

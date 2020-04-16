@@ -3,8 +3,10 @@ package project.innovators.recommendation.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import project.innovators.recommendation.dao.ICartDao;
 import project.innovators.recommendation.dao.IJdbcUserDao;
 import project.innovators.recommendation.dao.IUserDao;
+import project.innovators.recommendation.model.Cart;
 import project.innovators.recommendation.model.Product;
 import project.innovators.recommendation.model.ProductCategory;
 import project.innovators.recommendation.model.User;
@@ -24,6 +26,9 @@ public class UserServiceImpl implements IUserService {
 
     @Autowired
     private IJdbcUserDao jdbcUserDao;
+
+    @Autowired
+    private ICartDao cartDao;
 
     @Transactional
     public User getUser(String email, String password) {
@@ -49,6 +54,10 @@ public class UserServiceImpl implements IUserService {
             productCategories.add(new ProductCategory(pc_id, pc_name));
         }
         return productCategories;
+    }
 
+    @Override
+    public List<Cart> findCartForUser(User user) {
+        return cartDao.findCartByCustomer(user);
     }
 }
