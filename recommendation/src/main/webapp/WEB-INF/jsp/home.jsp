@@ -7,7 +7,7 @@
 <head>
     <jsp:include page="template-imports.jsp" />
     <title>Recommendation System</title>
-        <link rel="stylesheet" href="../../../resources/static/css/homepage.css">
+        <link rel="stylesheet" href="/css/homepage.css">
 </head>
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
 <body>
