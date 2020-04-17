@@ -57,4 +57,9 @@ public class ProductService implements IProductService {
     public List<Product> getProducts() {
         return productDao.findAll();
     }
+
+    @Override
+    public List<Product> getProductByName(String productName) {
+        return productDao.getProductByName(productName);
+    }
 }
