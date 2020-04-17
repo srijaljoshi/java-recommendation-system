@@ -57,14 +57,15 @@
                                         <input id="btnQuantity" type="number" min="1" max="10" class="quantityInput" value="${cartItem.quantity}" data-price="${cartItem.product.price}">
                                         <button type="button" id="btnUpdateQuantity" class="btn btn-outline-info btn-sm">Update</button>
                                     </div>
-                                    <div class="col">
-                                        <button onclick="removeDiv(${cartItem.id})" id="btnRemove-${cartItem.id}" type="button" class="btn btn-outline-danger btn-sm">Remove from cart</button>
+                                    <div class="col" data-cid="${cartItem.id}">
+                                        <button type="button" class="btn btn-outline-danger btn-sm btnRemove">Remove from cart</button>
                                     </div>
                                     <div data-productid="${cartItem.product.id}" data-userid="${sessionScope.user.id}"  data-cartid="${sessionScope.cart.id}" id="paramsDiv" ></div>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    <br><br>
                 </c:forEach>
 
                 <br>
@@ -127,21 +128,24 @@
     });
 
 
-    function  removeDiv(id) {
-            $.ajax({
-                'url': '/cart/remove/'+id,
-                'type': 'DELETE',
-                success: function (cart) {
-                    console.log(cart)
-                    console.log("remove cartItem " + cartItemId);
-                    $("#cart-item-"+id).remove();
-                    $(".grandTotal").text(""+cart.grandTotal)
-                    if(cart.cartItemList <= 0) {
-                        $("#placeOrder").remove();
-                    }
+   $(".btnRemove").click(function() {
+
+       let id = $(this).closest('div').data('cid');
+       console.log(id)
+        $.ajax({
+            'url': '/cart/remove/'+id,
+            'type': 'DELETE',
+            success: function (cart) {
+                console.log(cart);
+                console.log("remove cartItem " + cartItemId);
+                $("#cart-item-"+id).remove();
+                $(".grandTotal").text(""+cart.grandTotal)
+                if(cart.cartItemList <= 0) {
+                    $("#placeOrder").remove();
                 }
-            });
-    }
+            }
+        });
+    });
 
 </script>
 </html>

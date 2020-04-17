@@ -1,8 +1,6 @@
 package project.innovators.recommendation.model;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
 @Table(name = "product_category")
@@ -11,7 +9,7 @@ public class ProductCategory {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    private String name;
+    private String categoryName;
 
 //    @OneToMany//(mappedBy = "category")
 //    private Set<Product> product = new HashSet<>();
@@ -20,7 +18,7 @@ public class ProductCategory {
 
     public ProductCategory(long id, String name) {
         this.id = id;
-        this.name = name;
+        this.categoryName = name;
     }
 
     public long getId() {
@@ -31,19 +29,19 @@ public class ProductCategory {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getCategoryName() {
+        return categoryName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
     }
 
     @Override
     public String toString() {
         return "ProductCategory{" +
                 "id=" + id +
-                ", name='" + name + '\'' +
+                ", name='" + categoryName + '\'' +
                 '}';
     }
 }

@@ -1,5 +1,6 @@
 package project.innovators.recommendation.service;
 
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import project.innovators.recommendation.model.Product;
 import project.innovators.recommendation.model.ProductCategory;
@@ -18,4 +19,7 @@ public interface IProductService {
     int saveProductUploadedBySeller(Product product);
 
     List<Product> getProducts();
+
+
+    Page<Product> getProductByName(String productName, Integer pageNo, Integer pageSize, String sortBy);
 }

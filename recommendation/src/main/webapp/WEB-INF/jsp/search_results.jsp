@@ -18,6 +18,12 @@ pageEncoding="ISO-8859-1" %>
         Search Results
     </h2>
 
+    <div class="search-metadata">
+        <p>Total Pages: ${totalPages}</p>
+        <p>Total elements: ${numElements}</p>
+        <p>Current page: ${currentPageNumber}</p>
+    </div>
+
     <div class="container-fluid">
         <div class="row">
             <c:forEach var="product" items="${products}" >
@@ -42,7 +48,25 @@ pageEncoding="ISO-8859-1" %>
                 </div>
             </c:forEach>
         </div>
+
+        <br>
+        <ul class="pagination pagination-sm">
+            <%@page import="project.innovators.recommendation.model.Product" %>
+            <%@page import="org.springframework.data.domain.Page" %>
+
+            <%
+            Page<Product> pagedProducts = (Page<Product>)request.getAttribute("page");
+            if (pagedProducts.hasPrevious()) {
+            %>
+            <li class="page-item"><a class="page-link" href="/products/search?productName=${name}&pageNo=${currentPageNumber-1}">Prev</a></li>
+            <% } %>
+            <% if (pagedProducts.hasNext()) { %>
+            <li class="page-item"><a class="page-link" href="/products/search?productName=${name}&pageNo=${currentPageNumber+1}">Next</a></li>
+            <% }%>
+        </ul>
+
     </div>
+
 </div>
 </body>
 </html>

@@ -34,9 +34,9 @@ INSERT INTO recommendation.product_brand (id, brand_name) VALUES (15, 'OSHKOSH B
 INSERT INTO recommendation.product_brand (id, brand_name) VALUES (16, 'HP');
 
 
-INSERT INTO recommendation.product_category (id, name) VALUES (1, 'Laptop');
-INSERT INTO recommendation.product_category (id, name) VALUES (2, 'Phone');
-INSERT INTO recommendation.product_category (id, name) VALUES (3, 'Shoes');
+INSERT INTO recommendation.product_category (id, category_name) VALUES (1, 'Laptop');
+INSERT INTO recommendation.product_category (id, category_name) VALUES (2, 'Phone');
+INSERT INTO recommendation.product_category (id, category_name) VALUES (3, 'Shoes');
 
 INSERT INTO recommendation.products (id, name, description, image_url, price, product_brand_id, product_category_id) VALUES (1, 'HP laptop','New Hp laptop the latest model', 'https://cdn.mos.cms.futurecdn.net/yrrMKexnLDBUhybnvHW5HE-320-80.jpg', '439.99', 16, 1);
 INSERT INTO recommendation.products (id, name,  description, image_url, price, product_brand_id, product_category_id) VALUES (2, 'Iphone11', 'Iphone 11 Pro latest one', 'https://specs-tech.com/wp-content/uploads/2019/09/Apple-iPhone-11-Pro-Max-600x600.jpg', '999.99', 2, 2);
