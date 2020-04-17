@@ -11,7 +11,7 @@
 <style>
     .quantityInput {
         padding: 5px;
-        width: 3em;
+        width: 5em;
         height: 2em;
         border: 2px solid rgba(49,200,100,0.7);
         border-radius: 4px;
@@ -49,16 +49,22 @@
                             <div class="product_description">
                                 <h4 class="card-title"><a href="/products/${cartItem.product.id}/details">${cartItem.product.name}</a></h4>
                                 <p class="card-text">${cartItem.product.description}</p>
+                                <hr>
                                 <div class="row">
-                                    <div class="col">
-                                        <p id="totalPrice" class="btn btn-danger btn-block btn-sm">$${cartItem.totalPrice}</p>
+                                    <div class="col-5">
+                                        <p id="totalPrice-${cartItem.id}" class="btn btn-danger btn-block btn-sm">$${cartItem.totalPrice}</p>
                                     </div>
-                                    <div class="col">
-                                        <input id="btnQuantity" type="number" min="1" max="10" class="quantityInput" value="${cartItem.quantity}" data-price="${cartItem.product.price}">
-                                        <button type="button" id="btnUpdateQuantity" class="btn btn-outline-info btn-sm">Update</button>
+                                    <div class="col-3" data-cid="${cartItem.id}">
+                                        <button type="button" class="btn btn-outline-danger btn-sm btnRemove">Remove</button>
                                     </div>
-                                    <div class="col" data-cid="${cartItem.id}">
-                                        <button type="button" class="btn btn-outline-danger btn-sm btnRemove">Remove from cart</button>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-3"  data-cid="${cartItem.id}">
+                                        <input id="btnQuantity" style="display: inline" type="number" min="1" max="10" class="quantityInput" value="${cartItem.quantity}" data-price="${cartItem.product.price}">
+                                    </div>
+                                    <div class="col-4" data-cid="${cartItem.id}">
+                                        <button type="button" class="btnUpdateQuantity btn btn-outline-info btn-sm">Update</button>
                                     </div>
                                     <div data-productid="${cartItem.product.id}" data-userid="${sessionScope.user.id}"  data-cartid="${sessionScope.cart.id}" id="paramsDiv" ></div>
                                 </div>
@@ -105,24 +111,27 @@
 
     let total = parseFloat($("#btnQuantity").data('price')) * parseInt(quantity);
 
-    $("#btnQuantity").on('keyup mouseup', function () {
+    $(".quantityInput").on('keyup mouseup', function () {
         quantity = $(this).val();
         quantity = isNaN(quantity) ? 0 : quantity;
         total = parseFloat($(this).data('price')) * parseInt(quantity);
-        $("#totalPrice").text('$' + total.toFixed(2));
+        let id = $(this).closest('div').data('cid');
+        $("#totalPrice-"+id).text('$' + total.toFixed(2));
     });
 
-    $("#btnUpdateQuantity").click(function () {
+    $(".btnUpdateQuantity").click(function () {
+        let id = $(this).closest('div').data('cid');
         $.ajax({
-            'url': '/cart/update/' + cartItemId,
+            'url': '/cart/update/' + id,
             'type': 'PUT',
             'data': {
                 'quantity': quantity
             },
-            success: function (resp) {
-                confirm("Are you sure?");
-                alert(resp);
-                totalPrice.innerHTML = "Total price: " +  price;
+            success: function (cartAndCartItem) {
+                console.log(cartAndCartItem)
+                $("#totalPrice-"+id).text('$' + cartAndCartItem[1].totalPrice.toFixed(2));
+                $(".grandTotal").text("$"+ cartAndCartItem[0].grandTotal.toFixed(2))
+
             }
         });
     });
@@ -139,7 +148,7 @@
                 console.log(cart);
                 console.log("remove cartItem " + cartItemId);
                 $("#cart-item-"+id).remove();
-                $(".grandTotal").text(""+cart.grandTotal)
+                $(".grandTotal").text("$"+cart.grandTotal)
                 if(cart.cartItemList <= 0) {
                     $("#placeOrder").remove();
                 }

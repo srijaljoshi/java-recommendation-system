@@ -132,8 +132,7 @@ pageEncoding="ISO-8859-1" %>
             'data': {
                 'user_id': user_id,
                 'cart_id': cart_id,
-                'quantity': quantity,
-                'totalPrice': total.toFixed(2)
+                'quantity': quantity
             },
             success: function (data) {
                 console.log(data);

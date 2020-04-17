@@ -55,7 +55,7 @@ public class ProductsController {
     @GetMapping("/search")
     public String searchProduct(@RequestParam("productName") String productName,
                                         @RequestParam(defaultValue = "0") Integer pageNo,
-                                        @RequestParam(defaultValue = "10") Integer pageSize,
+                                        @RequestParam(defaultValue = "5") Integer pageSize,
                                         @RequestParam(defaultValue = "price") String sortBy,
                                         Model model) {
         Page<Product> pagedProducts = productService.getProductByName(productName, pageNo, pageSize, sortBy);

@@ -40,31 +40,23 @@ public class CartController {
     public CartItem addProductToCart(@PathVariable("product_id") long product_id,
                                      @RequestParam("user_id") long user_id,
                                      @RequestParam("cart_id") long cart_id,
-                                     @RequestParam("totalPrice") double totalPrice,
                                      @RequestParam("quantity") int quantity) {
         CartItem cartItem = new CartItem();
         Product product = productService.findById(product_id);
 
         Cart cart = cartService.findById(cart_id);
-        if (cart.isOrderPlaced()) {
 
-        }
         // build the cart item
         cartItem.setProduct(product);
         cartItem.setQuantity(quantity);
-        cartItem.setTotalPrice(totalPrice);
+        double totalPrice = quantity * cartItem.getProduct().getPrice();
+        cartItem.setTotalPrice(Double.parseDouble(String.format("%.2f", totalPrice)));
         cartItem.setCart(cart);
 
         // now save the cart item to either fetch later or to go to the order page where you get the grand total.
         cartItemService.save(cartItem);
-        Double grandTotal = 0d;
-        for (CartItem cartItem1 : cart.getCartItemList()) {
-            grandTotal += cartItem1.getTotalPrice();
-        }
-        grandTotal = grandTotal * TAX;
-        grandTotal = Double.parseDouble(String.format("%.2f", grandTotal));
-        cart.setGrandTotal(grandTotal);
-        cartService.update(cart);
+
+        updateGrandTotalOfCart(cart);
 //        System.out.println(">>> Built CartItem: " + cartItem);
         return cartItem;
     }
@@ -114,13 +106,31 @@ public class CartController {
 
     @RequestMapping(value = "/update/{cartItemId}", method = RequestMethod.PUT)
     @ResponseBody
-    public CartItem updateCartItem(@PathVariable("cartItemId") Long cartItemId,
+    public Object[] updateCartItem(@PathVariable("cartItemId") Long cartItemId,
                                    @RequestParam("quantity") Integer quantity,
                                    HttpSession session){
-        Integer id = cartItemService.updateQuantityForCartWithId(cartItemId, quantity);
-        System.out.println(">>> Updated quantity: " + id);
-        CartItem cartItem = cartItemService.findById((long)id);
-        return cartItem;
+        CartItem cartItem = cartItemService.findById(cartItemId);
+        cartItem.setQuantity(quantity);
+        double totalPrice = quantity * cartItem.getProduct().getPrice();
+        cartItem.setTotalPrice(Double.parseDouble(String.format("%.2f", totalPrice)));
+        cartItemService.save(cartItem);
+        Cart cart = cartService.findById(cartItem.getCart().getId());
+        updateGrandTotalOfCart(cart);
+        cart = cartService.findById(cart.getId());
+        session.setAttribute("cart", cart);
+        return new Object[]{cart, cartItem};
+    }
+
+    private void updateGrandTotalOfCart(Cart cart) {
+        Double grandTotal = 0d;
+        for (CartItem cartItem1 : cart.getCartItemList()) {
+            grandTotal += cartItem1.getTotalPrice();
+        }
+        grandTotal *= TAX;
+        grandTotal = Double.parseDouble(String.format("%.2f", grandTotal));
+        cart.setGrandTotal(grandTotal);
+        cartService.update(cart);
+        System.out.println(">>> Updated cart: " + cart);
     }
 
     /**

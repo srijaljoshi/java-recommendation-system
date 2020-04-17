@@ -18,11 +18,11 @@ pageEncoding="ISO-8859-1" %>
         Search Results
     </h2>
 
-    <div class="search-metadata">
-        <p>Total Pages: ${totalPages}</p>
-        <p>Total elements: ${numElements}</p>
-        <p>Current page: ${currentPageNumber}</p>
-    </div>
+<!--    <div class="search-metadata">-->
+<!--        <p>Total Pages: ${totalPages}</p>-->
+<!--        <p>Total elements: ${numElements}</p>-->
+<!--        <p>Current page: ${currentPageNumber}</p>-->
+<!--    </div>-->
 
     <div class="container-fluid">
         <div class="row">
