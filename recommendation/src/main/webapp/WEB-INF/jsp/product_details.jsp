@@ -71,8 +71,8 @@ pageEncoding="ISO-8859-1" %>
                 <img class="card-img-top img-fluid" src="${product.imageUrl}">
                 <div class="card-body">
                     <div class="product_description">
-                        <h4 class="card-title">${product.name}</h4>
-                        <p class="card-text">${product.description}</p>
+                        <h4 class="card-title"><a href="/products/${product.id}/details">${product.name}</a></h4>
+                        <p class="card-text">Brand: ${product.productBrand.brandName}</p>
 
                         <div class="row">
                             <div class="col">

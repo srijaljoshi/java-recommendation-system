@@ -16,12 +16,12 @@
 
                     <li class="nav-item"><a class="nav-link" href="/products">Browse Products</a></li>
 
-                    <li class="nav-item"><a class="nav-link" href="/search">Search</a></li>
+<!--                    <li class="nav-item"><a class="nav-link" href="/search">Search</a></li>-->
 
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">${sessionScope.user.firstname}</a>
                         <div class="dropdown-menu dropdown-menu-right">
-                            <a class="dropdown-item" href="/edit-profile">Edit Profile</a>
+<!--                            <a class="dropdown-item" href="/edit-profile">Edit Profile</a>-->
                             <a class="dropdown-item" href="/order-history">View Order History</a>
                             <a class="dropdown-item" href="/logout">Logout</a>
                         </div>
@@ -31,9 +31,9 @@
 
                         <form class="form-inline my-2 my-lg-0" action="/search">
                             <div class="input-group input-group-sm">
-                                <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="Search...">
+                                <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="Search Products">
                                 <div class="input-group-append">
-                                    <button type="button" id="btnSearchProduct" class="btn btn-secondary btn-number">
+                                    <button type="submit" id="btnSearchProduct" class="btn btn-secondary btn-number">
                                         <i class="fa fa-search"></i>
                                     </button>
                                 </div>
