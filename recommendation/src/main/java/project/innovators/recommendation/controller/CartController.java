@@ -13,6 +13,7 @@ import project.innovators.recommendation.service.ICustomerOrderService;
 import project.innovators.recommendation.service.IProductService;
 
 import javax.servlet.http.HttpSession;
+import java.text.DecimalFormat;
 import java.util.List;
 
 @Controller
@@ -98,9 +99,12 @@ public class CartController {
         // update grandTotal and delete the cartItem
         Cart currentCart = (Cart)session.getAttribute("cart");
         currentCart = cartService.findById(currentCart.getId());
-        for (CartItem cartItem : currentCart.getCartItemList()) {
-            if (cartItem.getId() == cartItemId) {
-                currentCart.setGrandTotal(Math.round(currentCart.getGrandTotal() - TAX * cartItem.getTotalPrice()));
+        List<CartItem> cartItems = currentCart.getCartItemList();
+        for (int i = 0; i < cartItems.size(); i++ ) {
+            if (cartItems.get(i).getId() == cartItemId) {
+                double diff = currentCart.getGrandTotal() - TAX * cartItems.get(i).getTotalPrice();
+                DecimalFormat df = new DecimalFormat("#.##");
+                currentCart.setGrandTotal(Double.parseDouble(df.format(diff)));
                 cartService.update(currentCart);
             }
         }

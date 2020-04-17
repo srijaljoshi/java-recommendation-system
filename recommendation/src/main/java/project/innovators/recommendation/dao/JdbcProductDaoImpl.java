@@ -21,12 +21,12 @@ public class JdbcProductDaoImpl {
 
 
     public void saveUploadedProduct(Product product) {
-        String categoryName = product.getProductCategory().getName();
+        String categoryName = product.getProductCategory().getCategoryName();
         String brandName = product.getProductBrand().getBrandName();
 
         // 1. if category already in db extract the id. do the same for brand.
         // 2. if not in db, insert them both into the db. Can use hibernate for that.
-        String checkcatsql = "select id from product_category where name = ?";
+        String checkcatsql = "select id from product_category where category_name = ?";
         String checkbrandsql = "select id from product_brand where brand_name = ?";
         try {
             long cat_id, brand_id;
@@ -67,7 +67,7 @@ public class JdbcProductDaoImpl {
 
                 System.out.println(">>> Cat_id: " + cat_id + " ||| brand_id: " + brand_id);
 
-                db.update("insert into product_category (name) VALUES (?)", categoryName);
+                db.update("insert into product_category (category_name) VALUES (?)", categoryName);
 
                 String insertsql = "insert into products(description, image_url, price, product_category_id, product_brand_id) " +
                         "VALUES (?, ?, ?,, ?)";

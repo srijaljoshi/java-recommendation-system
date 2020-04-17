@@ -35,7 +35,7 @@ pageEncoding="ISO-8859-1" %>
                     <div class="content">
                     <h3><a href="/proucts/{cartItem.product.id}/details">${cartItem.product.description}</a></h3>
                         <img src="${cartItem.product.imageUrl}" class="img-fluid img-thumbnail trailer-image">
-                        <p>${cartItem.quantity} x ${cartItem.product.productBrand.brandName} ${cartItem.product.productCategory.name} @ ${cartItem.product.price} + TAX per each</p>
+                        <p>${cartItem.quantity} x ${cartItem.product.productBrand.brandName} ${cartItem.product.productCategory.categoryName} @ ${cartItem.product.price} + TAX per each</p>
                     </div>
                 </c:forEach>
                 <h6>

@@ -30,9 +30,9 @@
 
                     <li>
 
-                        <form class="form-inline my-2 my-lg-0" action="/search">
+                        <form class="form-inline my-2 my-lg-0" action="/products/search">
                             <div class="input-group input-group-sm">
-                                <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="Search Products">
+                                <input type="text" class="form-control" name="productName" placeholder="Search Products">
                                 <div class="input-group-append">
                                     <button type="submit" id="btnSearchProduct" class="btn btn-secondary btn-number">
                                         <i class="fa fa-search"></i>
@@ -74,7 +74,7 @@
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">${sessionScope.user.firstname}</a>
                         <div class="dropdown-menu dropdown-menu-right">
-                            <a class="dropdown-item" href="/u/edit-profile">Edit Profile</a>
+                            <a class="dropdown-item" href="/edit-profile">Edit Profile</a>
                             <a class="dropdown-item" href="/order-history">View Order History</a>
                             <a class="dropdown-item" href="/logout">Logout</a>
                         </div>

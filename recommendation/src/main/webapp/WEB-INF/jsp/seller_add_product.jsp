@@ -29,11 +29,14 @@
             <div class="modal-body">
                 <form id="newProductForm" action="/seller/add_product" method="post">
                     <div class="form-group">
+                        <label>Product Name</label>
+                        <input type="text" name="name" class="form-control" placeholder="Name">
+                        <br>
                         <label>Product Description</label>
                         <input type="text" name="description" class="form-control" placeholder="Description">
                         <br>
                         <label>Price</label>
-                        <input type="number" name="price" class="form-control" placeholder="Price">
+                        <input name="price" class="form-control" placeholder="Price">
                         <br>
                         <label>Image</label>
                         <input type="text" name="imageUrl" class="form-control" placeholder="Image link">
@@ -41,7 +44,7 @@
                     </div>
                     <div class="form-group">
                         <label for="category">Product Category</label>
-                        <input type="text" name="name" class="form-control" id="Category" placeholder="Category" >
+                        <input type="text" name="categoryName" class="form-control" id="Category" placeholder="Category" >
                         <br>
                         <label for="productBrand">Product Brand</label>
                         <input type="text" name="brandName" class="form-control" id="productBrand" placeholder="Brand" >
@@ -135,6 +138,7 @@
         <thead>
         <tr>
             <th scope="col">id</th>
+            <th scope="col">Name</th>
             <th scope="col">Description</th>
             <th scope="col">Price</th>
             <th scope="col">Brand</th>
@@ -146,10 +150,11 @@
         <c:forEach items="${products}" var="product" >
             <tr id="${product.id}">
                 <th scope="row" id="productID">${product.id}</th>
+                <td>${product.name}</td>
                 <td>${product.description}</td>
                 <td>${product.price}</td>
                 <td>${product.productBrand.brandName}</td>
-                <td>${product.productCategory.name}</td>
+                <td>${product.productCategory.categoryName}</td>
                 <td><a class="btn btn-outline-success btn-sm"  data-toggle="modal" data-target="#exampleModal">Edit</a></td>
                 <td><a href="#" class="btn btn-outline-danger btn-sm btn-delete-movie">Delete</a></td>
             </tr>

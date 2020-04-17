@@ -42,7 +42,7 @@ pageEncoding="ISO-8859-1" %>
             <br><br><br>
             <h4>Items:</h4>
             <c:forEach var="cartItem" items="${orderCart.cartItemList}">
-                <p>${cartItem.quantity} x ${cartItem.product.productBrand.brandName} ${cartItem.product.productCategory.name} @ ${cartItem.product.price} + TAX per each</p>
+                <p>${cartItem.quantity} x ${cartItem.product.productBrand.brandName} ${cartItem.product.productCategory.categoryName} @ ${cartItem.product.price} + TAX per each</p>
             </c:forEach>
         </div>
 

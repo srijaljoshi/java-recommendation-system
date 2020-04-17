@@ -1,5 +1,7 @@
 package project.innovators.recommendation.dao;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -17,14 +19,17 @@ public interface IProductDao extends JpaRepository<Product, Long> {
     Product findProductById(Long id);
 
     // When a user chooses a product category, return the list of products under that category
-    @Query("SELECT p FROM Product p inner join p.productCategory pc where pc.name = :prod_category_name")
+    @Query("SELECT p FROM Product p inner join p.productCategory pc where pc.categoryName = :prod_category_name")
     List<Product> findProductByProductCategory(@Param("prod_category_name") String category_name);
 
-    @Query("SELECT pc FROM Product p inner join p.productCategory pc")
+    @Query("SELECT pc FROM Product p inner join p.productCategory pc ORDER BY pc.categoryName ASC")
     List<ProductCategory> getCategoriesForExistingProducts();
 
     @Query(value = "insert into products(description, image_url, price, product_category_id, product_brand_id) " +
-            "VALUES (?1, ?2, ?3, (select id from product_category where name=?4), (select id from product_brand where name=?5))",
+            "VALUES (?1, ?2, ?3, (select id from product_category where categoryName=?4), (select id from product_brand where brandName=?5))",
             nativeQuery = true)
     void saveProduct(String description, String imageUrl, double price, String cat_id, String brand_id);
+
+    @Query(value = "select p from Product p where LOWER(p.name) LIKE %?1%")
+    Page<Product> getProductByName(String name, Pageable pageable);
 }

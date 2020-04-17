@@ -13,6 +13,7 @@ pageEncoding="ISO-8859-1" %>
 
 <br><br>
 <div class="container">
+    <br>
     <h2 text="center">All the Product categories from which you can choose:</h2>
 
     <div class="container-fluid">
@@ -21,7 +22,7 @@ pageEncoding="ISO-8859-1" %>
             <c:forEach var="category" items="${availableCategories}" >
                 <div class="col-md-3 col-xs-6">
                     <div class="product_description">
-                        <a class="btn btn-outline-danger product-category-btn" href="/products/${category.name}">${category.name}</a>
+                        <a class="btn btn-outline-danger product-category-btn" href="/products/${category.categoryName}">${category.categoryName}</a>
                     </div>
                 </div>
             </c:forEach>

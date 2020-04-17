@@ -43,19 +43,21 @@ INSERT INTO recommendation.product_brand (id, brand_name) VALUES (23, 'Lenovo');
 INSERT INTO recommendation.product_brand (id, brand_name) VALUES (24, 'Apple');
 INSERT INTO recommendation.product_brand (id, brand_name) VALUES (25, 'Turmoil');
 
-INSERT INTO recommendation.product_category (id, name) VALUES (1, 'Laptop');
-INSERT INTO recommendation.product_category (id, name) VALUES (2, 'Phone');
-INSERT INTO recommendation.product_category (id, name) VALUES (3, 'Shoes');
-INSERT INTO recommendation.product_category (id, name) VALUES (4, 'Android Phones');
-INSERT INTO recommendation.product_category (id, name) VALUES (5, 'Phone Cases');
-INSERT INTO recommendation.product_category (id, name) VALUES (9, 'Apple Watches');
-INSERT INTO recommendation.product_category (id, name) VALUES (10, 'Samsung Watches');
-INSERT INTO recommendation.product_category (id, name) VALUES (11, 'Charger');
-INSERT INTO recommendation.product_category (id, name) VALUES (12, 'Headset');
+INSERT INTO recommendation.product_category (id, category_name) VALUES (1, 'Laptop');
+INSERT INTO recommendation.product_category (id, category_name) VALUES (2, 'Phone');
+INSERT INTO recommendation.product_category (id, category_name) VALUES (3, 'Shoes');
+INSERT INTO recommendation.product_category (id, category_name) VALUES (4, 'Android Phones');
+INSERT INTO recommendation.product_category (id, category_name) VALUES (5, 'Phone Cases');
+INSERT INTO recommendation.product_category (id, category_name) VALUES (9, 'Apple Watches');
+INSERT INTO recommendation.product_category (id, category_name) VALUES (10, 'Samsung Watches');
+INSERT INTO recommendation.product_category (id, category_name) VALUES (11, 'Charger');
+INSERT INTO recommendation.product_category (id, category_name) VALUES (12, 'Headset');
 
-INSERT INTO recommendation.product_category (id, name) VALUES (13, 'Lenovo Laptop');
-INSERT INTO recommendation.product_category (id, name) VALUES (14, 'Airpod');
-INSERT INTO recommendation.product_category (id, name) VALUES (15, 'Screen Protector');
+INSERT INTO recommendation.product_category (id, category_name) VALUES (13, 'Lenovo Laptop');
+INSERT INTO recommendation.product_category (id, category_name) VALUES (14, 'Airpod');
+INSERT INTO recommendation.product_category (id, category_name) VALUES (15, 'Screen Protector');
+
+
 
 
 INSERT INTO recommendation.products (id, name, description, image_url, price, product_brand_id, product_category_id) VALUES (1, 'HP laptop','New Hp laptop the latest model', 'https://cdn.mos.cms.futurecdn.net/yrrMKexnLDBUhybnvHW5HE-320-80.jpg', '439.99', 16, 1);
