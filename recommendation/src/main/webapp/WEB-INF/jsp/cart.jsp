@@ -48,9 +48,8 @@ pageEncoding="ISO-8859-1" %>
                         <img src="${cartItem.product.imageUrl}" class="card-img-top img-fluid">
                         <div class="card-body">
                             <div class="product_description">
-                                <h4 class="card-title"><a href="/products/${cartItem.product.id}/details">${cartItem.product.description}</a></h4>
+                                <h4 class="card-title"><a href="/products/${cartItem.product.id}/details">${cartItem.product.name}</a></h4>
                                 <p class="card-text">${cartItem.product.description}</p>
-
                                 <div class="row">
                                     <div class="col">
                                         <p id="totalPrice" class="btn btn-danger btn-block btn-sm">$${cartItem.totalPrice}</p>
