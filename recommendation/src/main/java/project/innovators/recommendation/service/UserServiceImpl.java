@@ -1,13 +1,15 @@
 package project.innovators.recommendation.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import project.innovators.recommendation.dao.ICartDao;
 import project.innovators.recommendation.dao.ICustomerOrderDao;
 import project.innovators.recommendation.dao.IJdbcUserDao;
 import project.innovators.recommendation.dao.IUserDao;
-import project.innovators.recommendation.model.*;
+import project.innovators.recommendation.model.Cart;
+import project.innovators.recommendation.model.CustomerOrder;
+import project.innovators.recommendation.model.ProductCategory;
+import project.innovators.recommendation.model.User;
 
 import javax.transaction.Transactional;
 import java.math.BigInteger;
@@ -65,5 +67,6 @@ public class UserServiceImpl implements IUserService {
     @Override
     public List<CustomerOrder> getCustomerOrders(User customer) {
         return customerOrderDao.getCustomerOrderByCustomer(customer);
+
     }
 }

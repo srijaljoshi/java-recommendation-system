@@ -23,6 +23,7 @@
                         <div class="dropdown-menu dropdown-menu-right">
 <!--                            <a class="dropdown-item" href="/edit-profile">Edit Profile</a>-->
                             <a class="dropdown-item" href="/order-history">View Order History</a>
+
                             <a class="dropdown-item" href="/logout">Logout</a>
                         </div>
                     </li>

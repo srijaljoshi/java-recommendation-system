@@ -1,8 +1,6 @@
 package project.innovators.recommendation.dao;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import project.innovators.recommendation.model.CustomerOrder;
 import project.innovators.recommendation.model.User;
@@ -14,4 +12,5 @@ public interface ICustomerOrderDao extends JpaRepository<CustomerOrder, Long> {
     CustomerOrder findCustomerOrderById(Long customerOrderId);
 
     List<CustomerOrder> getCustomerOrderByCustomer(User customer);
+
 }

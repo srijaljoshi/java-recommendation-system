@@ -73,7 +73,6 @@ pageEncoding="ISO-8859-1" %>
                     <div class="product_description">
                         <h4 class="card-title"><a href="/products/${product.id}/details">${product.name}</a></h4>
                         <p class="card-text">Brand: ${product.productBrand.brandName}</p>
-
                         <div class="row">
                             <div class="col">
                                 <p class="btn btn-danger btn-block btn-sm">$${product.price}</p>
@@ -88,7 +87,9 @@ pageEncoding="ISO-8859-1" %>
             </div>
         </div>
 
+
     </div>
+
 </div>
 </body>
 
@@ -103,7 +104,6 @@ pageEncoding="ISO-8859-1" %>
 
     let user_id = paramsdiv.data('userid');
     let cart_id = paramsdiv.data('cartid');
-
     let quantity = $("#btnQuantity").val();
 
     // get the count from the number input
