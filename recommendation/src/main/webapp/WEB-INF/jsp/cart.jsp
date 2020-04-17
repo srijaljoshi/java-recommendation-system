@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-pageEncoding="ISO-8859-1" %>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page isELIgnored="false" %>
 <!DOCTYPE html>
@@ -13,7 +12,7 @@ pageEncoding="ISO-8859-1" %>
     .quantityInput {
         padding: 5px;
         width: 3em;
-        height: 1.5em;
+        height: 2em;
         border: 2px solid rgba(49,200,100,0.7);
         border-radius: 4px;
     }
@@ -22,6 +21,12 @@ pageEncoding="ISO-8859-1" %>
         padding: 10px;
         border: 2px solid grey;
         margin-bottom: 10px;
+    }
+
+    .grandTotal {
+        background-color: black;
+        color: gold;
+        font-family: 'DejaVu Sans Mono', monospace;
     }
 </style>
 <body>
@@ -34,31 +39,36 @@ pageEncoding="ISO-8859-1" %>
 </div>
 
 <div class="container container-fluid">
-    <h2>${product.description}</h2>
     <form action="/cart/order-placed" method="post">
         <div class="row">
             <div id="productContainer" class="offset-3 col-md-4 col-xs-6">
                 <c:forEach var="cartItem" items="${cartItemList}">
-                    <div class="cartItem" data-id="${cartItem.id}">
-                        <img src="${cartItem.product.imageUrl}" class="img-thumbnail trailer-image">
-                        <div>
-                            <p>Price: ${cartItem.product.price}</p>
-                            <div>
-                                Quantity: <input id="btnQuantity" type="number" min="1" max="10" class="quantityInput" value="${cartItem.quantity}" data-price="${product.price}">
-                                <button type="button" id="btnUpdateQuantity" class="btn btn-outline-info btn-sm">Update</button>
+                    <div class="card cartItemDiv" id="cart-item-${cartItem.id}" data-id="${cartItem.id}">
+                        <img src="${cartItem.product.imageUrl}" class="card-img-top img-fluid">
+                        <div class="card-body">
+                            <div class="product_description">
+                                <h4 class="card-title"><a href="/products/${cartItem.product.id}/details">${cartItem.product.name}</a></h4>
+                                <p class="card-text">${cartItem.product.description}</p>
+                                <div class="row">
+                                    <div class="col">
+                                        <p id="totalPrice" class="btn btn-danger btn-block btn-sm">$${cartItem.totalPrice}</p>
+                                    </div>
+                                    <div class="col">
+                                        <input id="btnQuantity" type="number" min="1" max="10" class="quantityInput" value="${cartItem.quantity}" data-price="${cartItem.product.price}">
+                                        <button type="button" id="btnUpdateQuantity" class="btn btn-outline-info btn-sm">Update</button>
+                                    </div>
+                                    <div class="col">
+                                        <button onclick="removeDiv(${cartItem.id})" id="btnRemove-${cartItem.id}" type="button" class="btn btn-outline-danger btn-sm">Remove from cart</button>
+                                    </div>
+                                    <div data-productid="${cartItem.product.id}" data-userid="${sessionScope.user.id}"  data-cartid="${sessionScope.cart.id}" id="paramsDiv" ></div>
+                                </div>
                             </div>
-                            <br>
-                            <p id="totalPrice">Total Price: $${cartItem.totalPrice}</p>
-                            <button type="button" class="btn btn-outline-danger btn-sm btnRemoveProduct">Remove from cart</button>
-                            <br>
-                            <br><br>
-                            <div data-productid="${product.id}" data-userid="${sessionScope.user.id}"  data-cartid="${sessionScope.cart.id}" id="paramsDiv" ></div>
                         </div>
                     </div>
                 </c:forEach>
 
                 <br>
-                <h4 id="grandTotal" class="align-content-center" data-grandTotal="${cart.grandTotal}">Grand total = $${cart.grandTotal}</h4>
+                <h4 class="align-content-center">Grand total = <span class="grandTotal">$${cart.grandTotal}</span></h4>
                 <br>
                 <br>
                 <c:if test="${cartItemList.size() > 0}">
@@ -70,28 +80,35 @@ pageEncoding="ISO-8859-1" %>
 </div>
 </body>
 
+
+
+
+
 <script>
-
-    window.grandTotal = $("#grandTotal").data('grandTotal');
-
     var msgdiv = $("#addProductContainer");
     var newdiv = '<div  class="alert alert-info" role="alert">Removed from Cart</div>';
 
     var paramsdiv = $("#paramsDiv");
-    var product_id = paramsdiv.data('productid');
     let cartItemId = $(".cartItem").data('id');
 
     let user_id = paramsdiv.data('userid');
     let cart_id = paramsdiv.data('cartid');
-    let total, quantity;
 
-    let totalPrice = document.getElementById('totalPrice');
-    let price = $("#btnQuantity").data('price');
-    $("#btnQuantity").click(function () {
+    let quantity = $("#btnQuantity").val();
+
+    // get the count from the number input
+    quantity = quantity;
+    if (quantity == NaN) {
+        quantity = 0;
+    }
+
+    let total = parseFloat($("#btnQuantity").data('price')) * parseInt(quantity);
+
+    $("#btnQuantity").on('keyup mouseup', function () {
         quantity = $(this).val();
-
-        total = parseFloat(totalPrice.innerHTML) * parseInt(quantity);
-        totalPrice.innerHTML = 'Total price: ' + total.toFixed(2);
+        quantity = isNaN(quantity) ? 0 : quantity;
+        total = parseFloat($(this).data('price')) * parseInt(quantity);
+        $("#totalPrice").text('$' + total.toFixed(2));
     });
 
     $("#btnUpdateQuantity").click(function () {
@@ -109,22 +126,22 @@ pageEncoding="ISO-8859-1" %>
         });
     });
 
-    $(".btnRemoveProduct").click(function () {
-        let conf = confirm("Sure?");
-        if (conf) {
+
+    function  removeDiv(id) {
             $.ajax({
-                'url': '/cart/remove/'+cartItemId,
+                'url': '/cart/remove/'+id,
                 'type': 'DELETE',
-                success: function () {
-                    alert('Deleted successfully');
-                    location.href = "/cart";
+                success: function (cart) {
+                    console.log(cart)
+                    console.log("remove cartItem " + cartItemId);
+                    $("#cart-item-"+id).remove();
+                    $(".grandTotal").text(""+cart.grandTotal)
+                    if(cart.cartItemList <= 0) {
+                        $("#placeOrder").remove();
+                    }
                 }
             });
-        }
-
-    });
-
-
+    }
 
 </script>
 </html>

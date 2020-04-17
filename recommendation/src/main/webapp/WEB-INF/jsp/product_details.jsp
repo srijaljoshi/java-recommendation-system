@@ -33,14 +33,10 @@ pageEncoding="ISO-8859-1" %>
 <div class="container container-fluid">
 
     <div class="row">
-        <div id="productContainer"  class="col-6 col-md-4 col-xs-6">
+        <div id="productContainer"  class="col-6 col-md-4">
             <div class="card">
                 <img class="card-img-top img-fluid" src="${product.imageUrl}">
                 <div class="card-body">
-                    <div class="product_description">
-                        <h4 class="card-title">${product.description}</h4>
-                        <p class="card-text">${product.description}</p>
-
                         <div class="row">
                             <div class="col">
                                 <p id="totalPrice" class="btn btn-danger btn-block btn-sm">$${product.price}</p>
@@ -59,22 +55,24 @@ pageEncoding="ISO-8859-1" %>
                                 </div>
                             </c:if>
                         </div>
-                    </div>
                 </div>
             </div>
         </div>
 
-<!--        TODO: suggest for multiple close neighbor products -->
+        <div class="product_description col-md-4">
+            <h4 class="card-title"><a href="/products/${product.id}/details">${product.name}</a></h4>
+            <p class="card-text">${product.description}</p>
+        </div>
+            <!--        TODO: suggest for multiple close neighbor products -->
 
-        <div id="suggestedProductContainer" class="offset-5 col-4 col-md-3 col-xs-6">
+        <div id="suggestedProductContainer" class="offset-1 col-4 col-md-3 col-xs-6">
             <h4>Suggested Items:</h4>
             <div class="card">
                 <img class="card-img-top img-fluid" src="${product.imageUrl}">
                 <div class="card-body">
                     <div class="product_description">
-                        <h4 class="card-title">${product.description}</h4>
-                        <p class="card-text">${product.description}</p>
-
+                        <h4 class="card-title"><a href="/products/${product.id}/details">${product.name}</a></h4>
+                        <p class="card-text">Brand: ${product.productBrand.brandName}</p>
                         <div class="row">
                             <div class="col">
                                 <p class="btn btn-danger btn-block btn-sm">$${product.price}</p>
@@ -88,6 +86,8 @@ pageEncoding="ISO-8859-1" %>
                 </div>
             </div>
         </div>
+
+
     </div>
 
 </div>
@@ -104,13 +104,21 @@ pageEncoding="ISO-8859-1" %>
 
     let user_id = paramsdiv.data('userid');
     let cart_id = paramsdiv.data('cartid');
-    let total, quantity;
+    let quantity = $("#btnQuantity").val();
 
-    $("#btnQuantity").click(function () {
-        let totalPrice = document.getElementById('totalPrice');
+    // get the count from the number input
+    quantity = quantity;
+    if (quantity == NaN) {
+        quantity = 0;
+    }
+
+    let total = parseFloat($("#btnQuantity").data('price')) * parseInt(quantity);
+
+    $("#btnQuantity").on('keyup mouseup', function () {
         quantity = $(this).val();
+        quantity = isNaN(quantity) ? 0 : quantity;
         total = parseFloat($(this).data('price')) * parseInt(quantity);
-        totalPrice.innerHTML = '$' + total.toFixed(2);
+        $("#totalPrice").text('$' + total.toFixed(2));
     });
 
     let counter = 0;

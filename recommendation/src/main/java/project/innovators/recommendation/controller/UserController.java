@@ -178,4 +178,12 @@ public class UserController {
         return "redirect:/seller/add_product";
     }
 
+    @RequestMapping(value = "/order-history", method = RequestMethod.GET)
+    public String orderHistory(Model model, HttpSession session) {
+        List<CustomerOrder> customerOrderList = userService.getCustomerOrders((User)session.getAttribute("user"));
+        model.addAttribute("customerOrderList", customerOrderList);
+        return "order_history";
+    }
+
+
 }

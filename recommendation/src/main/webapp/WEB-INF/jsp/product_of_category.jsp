@@ -23,14 +23,14 @@ pageEncoding="ISO-8859-1" %>
                 <div class="card">
                     <img class="card-img-top img-fluid" src="${product.imageUrl}">
                     <div class="card-body">
-                        <h4 class="card-title"><a href="product.html" title="View Product">${product.description}</a></h4>
+                        <h4 class="card-title"><a href="product.html" title="View Product">${product.name}</a></h4>
                         <p class="card-text">${product.description}</p>
                         <div class="row">
                             <div class="col">
-                                <p class="btn btn-danger btn-block btn-sm">$${product.price}</p>
+                                <p class="btn btn-danger btn-sm">$${product.price}</p>
                             </div>
                             <div class="col">
-                                <a href="/products/${product.id}/details" class="btn btn-outline-success btn-sm">See Product Details</a>
+                                <a href="/products/${product.id}/details" class="btn btn-outline-success btn-sm">Details</a>
                             </div>
                         </div>
                     </div>

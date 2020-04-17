@@ -17,7 +17,6 @@ pageEncoding="ISO-8859-1" %>
         border: 2px solid rgba(49,200,100,0.7);
         border-radius: 4px;
     }
-
     .orderSummary {
         padding: 10px;
         border: 2px solid grey;
@@ -54,7 +53,6 @@ pageEncoding="ISO-8859-1" %>
 </div>
 
 
+</body>
 
-
-</script>
 </html>
