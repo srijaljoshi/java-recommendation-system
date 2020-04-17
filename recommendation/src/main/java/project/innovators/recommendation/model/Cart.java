@@ -19,11 +19,13 @@ public class Cart {
     @OneToMany(mappedBy = "cart", fetch = FetchType.LAZY)
     List<CartItem> cartItemList = new ArrayList<>();
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "user_id")
     User customer;
 
     double grandTotal;
+
+    boolean orderPlaced;
 
     public Cart() {
     }
@@ -64,6 +66,14 @@ public class Cart {
 
     public void setGrandTotal(double grandTotal) {
         this.grandTotal = grandTotal;
+    }
+
+    public boolean isOrderPlaced() {
+        return orderPlaced;
+    }
+
+    public void setOrderPlaced(boolean orderPlaced) {
+        this.orderPlaced = orderPlaced;
     }
 
     @Override

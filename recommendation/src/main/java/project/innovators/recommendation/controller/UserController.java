@@ -45,7 +45,7 @@ public class UserController {
             user = userService.getUser(email, password);
             if (user == null) {
                 // failed
-                redirectAttributes.addFlashAttribute("error", "user==null");
+                redirectAttributes.addFlashAttribute("error", "user==null Flash Attribute");
                 return "redirect:login";
             } else {
                 session.setAttribute("user", user);
@@ -57,9 +57,17 @@ public class UserController {
                 // TODO: Refactor to move cart elsewhere
                 // if cart for a user already exists, load it. else create new cart
                 // select cart from carts where user_id = current_user.id
-                Cart cart = userService.findCartForUser(user);
+                List<Cart> cartList = userService.findCartForUser(user);
 
-                if (cart == null) {
+                Cart cart = null;
+                for (Cart c : cartList) {
+                    if (!c.isOrderPlaced()) {
+                        cart = c;
+                        System.out.println(">>> Found a cart with order not placed!");
+                    }
+                }
+
+                if (cart == null){ // did not find a cart
                     cart = createCartForUser(user);
                     cartService.saveCartToDb(cart);
                 } else {
@@ -67,7 +75,7 @@ public class UserController {
                 }
                 session.setAttribute("cart", cart);
 
-                System.out.println(">>> Saved cart to DATABASE!!!");
+                System.out.println(">>> Saved cart to DATABASE!!!" + cart.getId());
                 return "redirect:/"; // After successful login go to root
             }
         } catch (Exception e) {
@@ -80,9 +88,12 @@ public class UserController {
     }
 
     private Cart createCartForUser(User user) {
+
+        System.out.println(">>> Creating cart for user...............");
         Cart cart = new Cart();
         cart.setCustomer(user);
         cart.setGrandTotal(0);
+        cart.setOrderPlaced(false);
         return cart;
     }
 

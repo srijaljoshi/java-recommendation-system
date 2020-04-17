@@ -14,4 +14,8 @@ public interface ICartItemService {
     List<CartItem> findByCart(Cart cart);
 
     void deleteById(Long cartItemId);
+
+    Integer updateQuantityForCartWithId(Long cartItemId, Integer quantity);
+
+    CartItem findById(Long id);
 }

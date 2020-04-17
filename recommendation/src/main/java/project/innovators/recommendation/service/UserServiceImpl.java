@@ -57,7 +57,7 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public Cart findCartForUser(User user) {
+    public List<Cart> findCartForUser(User user) {
         return cartDao.findCartByCustomer(user);
     }
 }
