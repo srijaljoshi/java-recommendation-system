@@ -19,6 +19,10 @@
     <br>
     <br>
 
+        <p>
+            ${ratedItems}
+        </p>
+
     <h1 class="jumbotron-heading">E-COMMERCE CATEGORY</h1>
 <p class="lead text-muted mb-0">Buy our products. Project available in Github. Link: </p>
 </div>

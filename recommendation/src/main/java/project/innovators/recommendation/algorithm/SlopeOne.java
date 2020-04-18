@@ -1,5 +1,7 @@
 package project.innovators.recommendation.algorithm;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import project.innovators.recommendation.model.Product;
 import project.innovators.recommendation.model.User;
 
@@ -14,26 +16,25 @@ import java.util.Map.Entry;
  * Slope One algorithm implementation
  *
  */
+@Component
 public class SlopeOne {
 
     private static Map<Product, Map<Product, Double>> diff = new HashMap<>();
     private static Map<Product, Map<Product, Integer>> freq = new HashMap<>();
-    private static Map<User, HashMap<Product, Double>> inputData;
+    private static Map<User, HashMap<Product, Double>> inpData;
     private static Map<User, HashMap<Product, Double>> outputData = new HashMap<>();
 
-//    public static void main(String[] args) {
-//        int numberOfUsers=4;
-//        SlopeOne.slopeOne(numberOfUsers);
-//        // printData(InputData.initializeData(numberOfUsers));
-//    }
 
-    public static void slopeOne(int numberOfUsers) {
-        inputData = InputData.initializeData(numberOfUsers);
+    @Autowired
+    InputData inputData;
+
+    public void slopeOne() {
+        inpData = inputData.initializeData();
         System.out.println("Slope One - Before the Prediction\n");
-        buildDifferencesMatrix(inputData);
+        buildDifferencesMatrix(inpData);
         // new Scanner(System.in).next();
         System.out.println("\nSlope One - With Predictions\n");
-        predict(inputData);
+        predict(inpData);
     }
 
     /**
@@ -55,11 +56,11 @@ public class SlopeOne {
                 for (Entry<Product, Double> e2 : user.entrySet()) {
                     int oldCount = 0;
                     if (freq.get(e.getKey()).containsKey(e2.getKey())) {
-                        oldCount = freq.get(e.getKey()).get(e2.getKey()).intValue();
+                        oldCount = freq.get(e.getKey()).get(e2.getKey());
                     }
                     double oldDiff = 0.0;
                     if (diff.get(e.getKey()).containsKey(e2.getKey())) {
-                        oldDiff = diff.get(e.getKey()).get(e2.getKey()).doubleValue();
+                        oldDiff = diff.get(e.getKey()).get(e2.getKey());
                     }
                     double observedDiff = e.getValue() - e2.getValue();
                     freq.get(e.getKey()).put(e2.getKey(), oldCount + 1);
@@ -69,8 +70,8 @@ public class SlopeOne {
         }
         for (Product j : diff.keySet()) {
             for (Product i : diff.get(j).keySet()) {
-                double oldValue = diff.get(j).get(i).doubleValue();
-                int count = freq.get(j).get(i).intValue();
+                double oldValue = diff.get(j).get(i);
+                int count = freq.get(j).get(i);
                 diff.get(j).put(i, oldValue / count); // normalize
             }
         }
@@ -81,7 +82,7 @@ public class SlopeOne {
      possible, the value will be equal to -1
      Existing user data and their items' ratings
      */
-    private static void predict(Map<User, HashMap<Product, Double>> data) {
+    private void predict(Map<User, HashMap<Product, Double>> data) {
         HashMap<Product, Double> uPred = new HashMap<Product, Double>();
         HashMap<Product, Integer> uFreq = new HashMap<Product, Integer>();
         for (Product j : diff.keySet()) {
@@ -92,10 +93,10 @@ public class SlopeOne {
             for (Product j : e.getValue().keySet()) {
                 for (Product k : diff.keySet()) {
                     try {
-                        double predictedValue = diff.get(k).get(j).doubleValue() + e.getValue().get(j).doubleValue();
-                        double finalValue = predictedValue * freq.get(k).get(j).intValue();
+                        double predictedValue = diff.get(k).get(j) + e.getValue().get(j);
+                        double finalValue = predictedValue * freq.get(k).get(j);
                         uPred.put(k, uPred.get(k) + finalValue);
-                        uFreq.put(k, uFreq.get(k) + freq.get(k).get(j).intValue());
+                        uFreq.put(k, uFreq.get(k) + freq.get(k).get(j));
                     } catch (NullPointerException e1) {
                     }
                 }
@@ -103,10 +104,10 @@ public class SlopeOne {
             HashMap<Product, Double> clean = new HashMap<Product, Double>();
             for (Product j : uPred.keySet()) {
                 if (uFreq.get(j) > 0) {
-                    clean.put(j, uPred.get(j).doubleValue() / uFreq.get(j).intValue());
+                    clean.put(j, uPred.get(j) / uFreq.get(j));
                 }
             }
-            for (Product j : InputData.products) {
+            for (Product j : inputData.getProducts()) {
                 if (e.getValue().containsKey(j)) {
                     clean.put(j, e.getValue().get(j));
                 } else if (!clean.containsKey(j)) {
@@ -130,7 +131,7 @@ public class SlopeOne {
     private static void print(HashMap<Product, Double> hashMap) {
         NumberFormat formatter = new DecimalFormat("#0.000");
         for (Product j : hashMap.keySet()) {
-            System.out.println(" " + j.getName() + " --> " + formatter.format(hashMap.get(j).doubleValue()));
+            System.out.println(" " + j.getName() + " --> " + formatter.format(hashMap.get(j)));
         }
     }
 

@@ -12,23 +12,16 @@ import java.util.List;
 @Repository
 public interface IUserDao extends JpaRepository<User, Long> {
 
-//    @Query(value = "SELECT * FROM USERS WHERE EMAIL_ADDRESS = ?1", nativeQuery = true)
+    //    @Query(value = "SELECT * FROM USERS WHERE EMAIL_ADDRESS = ?1", nativeQuery = true)
     User findByEmailAndPassword(String email, String password);
 
     //    @Query("SELECT pc FROM Product p INNER JOIN p.productCategory pc  ")
     @Query(value = "select pc.id, pc.name from product_category pc join products p on pc.id = p.product_category_id join product_user pu on pu.pid = p.id where pu.uid = :user_id", nativeQuery = true)
     List<Object[]> getProductCategoriesBySeller(@Param("user_id") Long id);
 
-//    Admin getAdmin(String email, String password);
-//    void addProduct(Product product);
-//    Product findProductById(long productId);
-//    Customer banCustomer(long id);
-//    void reactivateCustomer(long id);
-}
+    @Query("select u from User u where u.userCategory.userType = 'customer'")
+    List<User> getCustomers();
 
-//interface ProductCategoryProjection {
-//    Long getId();
-//    String getName();
-//}
+}
 
 

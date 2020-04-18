@@ -1,48 +1,79 @@
 package project.innovators.recommendation.algorithm;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import project.innovators.recommendation.dao.IProductDao;
+import project.innovators.recommendation.dao.IProductRatingDao;
+import project.innovators.recommendation.dao.IUserDao;
 import project.innovators.recommendation.model.Product;
+import project.innovators.recommendation.model.ProductRating;
 import project.innovators.recommendation.model.User;
 
 import java.util.*;
 
+@Component
 public class InputData {
 
-    protected static List<Product> products = new ArrayList<>();
+    Map<User, HashMap<Product, Double>> data = new HashMap<>();
+    List<Product> products;
 
-    public static Map<User, HashMap<Product, Double>> initializeData(int numberOfUsers) {
-        Map<User, HashMap<Product, Double>> data = new HashMap<>();
-        HashMap<Product, Double> newUserRating;
-        Set<Product> newRecommendationSet;
+    @Autowired
+    private IProductRatingDao productRatingDao;
 
-        for (int i = 0; i < numberOfUsers; i++) {
-            newUserRating = new HashMap<Product, Double>(); // init new data structure to hold rating for each user
-            newRecommendationSet = new HashSet<>(); // create a set for each user
+    @Autowired
+    private IProductDao productDao;
 
-            // add 3 products (could be duplicate) to the set randomly selected from the list of products
-            for (int j = 0; j < 3; j++) {
-                newRecommendationSet.add(products.get((int) (Math.random() * 5)));
+    public Map<User, HashMap<Product, Double>> initializeData() {
+
+        products = productDao.findAll(); // all the products in the db
+//        int numProducts = products.size();
+//        List<ProductRating> productRatingList = productRatingDao.findAll(); // get all ratings from db
+////        numberOfUsers = productRatings.size();
+//
+//        // get all customers
+//        numberOfUsers = customerList.size();
+
+        List<User> customerList = productRatingDao.findDistinctUsers();
+        HashMap<Product, Double> userRatingMap;
+
+        for (User u : customerList) {
+            userRatingMap = new HashMap<>();
+
+            Set<ProductRating> productRatingsOfCurrentUser = productRatingDao.findByUser(u);
+
+            for (ProductRating productRating: productRatingsOfCurrentUser) {
+                userRatingMap.put(productRating.getProduct(), (double)productRating.getRating());
             }
-
-            // for each product, randomly generate a rating
-            for (Product product : newRecommendationSet) {
-                newUserRating.put(product, Math.random()); // randomly init rating
-            }
-            data.put(new User(), newUserRating);
+            data.put(u, userRatingMap);
         }
 
+        System.out.println("Input data: " + data);
         return data;
     }
 
-    public static List<Product> getProducts() {
+    public Map<User, HashMap<Product, Double>> getData() {
+        return data;
+    }
+
+    public void setData(Map<User, HashMap<Product, Double>> data) {
+        this.data = data;
+    }
+
+    public List<Product> getProducts() {
         return products;
     }
 
-    public static void setProducts(List<Product> products) {
-        InputData.products = products;
+    public void setProducts(List<Product> products) {
+        this.products = products;
     }
 
     @Override
     public String toString() {
-        return "InputData{}";
+        StringBuilder sb = new StringBuilder();
+        sb.append("InputData: ");
+        for (HashMap<Product, Double> user: data.values()) {
+            sb.append("  :  " + user.keySet());
+        }
+        return sb.toString();
     }
 }
