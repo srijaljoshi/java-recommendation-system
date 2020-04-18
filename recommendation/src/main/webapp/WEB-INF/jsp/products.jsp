@@ -24,7 +24,9 @@ pageEncoding="ISO-8859-1" %>
                     <div class="product_description">
                         <a class="btn btn-outline-danger product-category-btn" href="/products/${category.categoryName}">${category.categoryName}</a>
                     </div>
+                    <br>
                 </div>
+                <br>
             </c:forEach>
         </div>
     </div>

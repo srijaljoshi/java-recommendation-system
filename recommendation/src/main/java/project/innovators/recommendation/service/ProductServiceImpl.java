@@ -71,4 +71,9 @@ public class ProductServiceImpl implements IProductService {
         Page<Product> pageResult = productDao.getProductByName(productName, pageReq);
         return pageResult;
     }
+
+    @Override
+    public void saveRating(Long userId, Long productId, Integer rating) {
+        productDao.saveRating(userId, productId, rating);
+    }
 }

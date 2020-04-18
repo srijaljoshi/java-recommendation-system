@@ -135,4 +135,8 @@ public class SlopeOne {
         }
     }
 
+    public static Map<User, HashMap<Product, Double>> getOutputData() {
+        return outputData;
+    }
+
 }

@@ -22,4 +22,6 @@ public interface IProductService {
 
 
     Page<Product> getProductByName(String productName, Integer pageNo, Integer pageSize, String sortBy);
+
+    void saveRating(Long id, Long productId, Integer rating);
 }

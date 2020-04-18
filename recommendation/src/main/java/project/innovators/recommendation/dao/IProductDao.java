@@ -3,12 +3,14 @@ package project.innovators.recommendation.dao;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import project.innovators.recommendation.model.Product;
 import project.innovators.recommendation.model.ProductCategory;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Set;
 
@@ -32,4 +34,9 @@ public interface IProductDao extends JpaRepository<Product, Long> {
 
     @Query(value = "select p from Product p where LOWER(p.name) LIKE %?1%")
     Page<Product> getProductByName(String name, Pageable pageable);
+
+    @Modifying
+    @Transactional
+    @Query(value = "insert into product_rating(user_id, product_id, rating) values (?1, ?2, ?3)", nativeQuery = true)
+    void saveRating(Long userId, Long productId, Integer rating);
 }

@@ -103,8 +103,6 @@
 
     let quantity = $("#btnQuantity").val();
 
-    // get the count from the number input
-    quantity = quantity;
     if (quantity == NaN) {
         quantity = 0;
     }

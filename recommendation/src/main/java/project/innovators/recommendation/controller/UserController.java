@@ -6,13 +6,17 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import project.innovators.recommendation.algorithm.InputData;
+import project.innovators.recommendation.algorithm.SlopeOne;
 import project.innovators.recommendation.model.*;
 import project.innovators.recommendation.service.ICartService;
 import project.innovators.recommendation.service.IProductService;
 import project.innovators.recommendation.service.IUserService;
 
 import javax.servlet.http.HttpSession;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
 
 @Controller
@@ -29,6 +33,14 @@ public class UserController {
     @Autowired
     private ICartService cartService;
 
+
+    @Autowired
+    InputData inputData;
+
+    @Autowired
+    SlopeOne slopeOne;
+
+
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String login(HttpSession session) {
         if (session.getAttribute("user") == null) return "login";
@@ -38,6 +50,7 @@ public class UserController {
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public String loginUser(@RequestParam("email") String email, @RequestParam("password") String password,
                         HttpSession session, RedirectAttributes redirectAttributes) {
+
         logger.info(">>> INSIDE POST: login!!!");
         User user = null;
         try {
@@ -76,6 +89,11 @@ public class UserController {
                 session.setAttribute("cart", cart);
 
                 System.out.println(">>> Saved cart to DATABASE!!!" + cart.getId());
+
+
+                // Start recommendation algorithm here
+                initRecommenderAlgorithm();
+
                 return "redirect:/"; // After successful login go to root
             }
         } catch (Exception e) {
@@ -85,6 +103,19 @@ public class UserController {
             System.out.println(">>> Error Model: " + redirectAttributes.getFlashAttributes());
             return "redirect:login";
         }
+    }
+
+    private void initRecommenderAlgorithm() {
+        Map<User, HashMap<Product, Double>> data = inputData.initializeData();
+        System.out.println(data.size());
+        data.keySet().forEach(user -> System.out.println(user.getFirstname()));
+        data.keySet().forEach(user -> {
+            data.get(user).forEach((product, aDouble) -> {
+                System.out.println("product: " + product.getId() + " rate: " + aDouble.doubleValue());
+            });
+        });
+
+        slopeOne.slopeOne();
     }
 
     private Cart createCartForUser(User user) {
