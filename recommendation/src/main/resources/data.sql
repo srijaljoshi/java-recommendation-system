@@ -74,3 +74,9 @@ INSERT INTO recommendation.products (id, name, description, image_url, price, pr
 INSERT INTO recommendation.products (id, name, description, image_url, price, product_brand_id, product_category_id) VALUES (14, 'Apple Airpod', 'Great peoples choice', 'https://encrypted-tbn2.gstatic.com/shopping?q=tbn:ANd9GcRlY6roKTA-YP_ePutllIL-TdBXOk_wdc2nykcKQYHXFbeLhdulejZKx5reiDxfKTss6YMc0hIrbBs&usqp=CAc', '199.00', 24, 14);
 INSERT INTO recommendation.product_user (pid, uid) VALUES (1, 3);
 INSERT INTO recommendation.product_user (pid, uid) VALUES (2, 3);
+
+
+insert into recommendation.product_rating(user_id, product_id, rating) values (1,1,5);
+insert into recommendation.product_rating(user_id, product_id, rating) values (1,2,1);
+insert into recommendation.product_rating(user_id, product_id, rating) values (1,3,2);
+insert into recommendation.product_rating(user_id, product_id, rating) values (1,4,4);
