@@ -72,11 +72,6 @@
             </nav>
         </div>
     </nav>
-    <br><br>
-
-    <c:forEach var="category" items="${availableCategories}" >
-        <a class="btn btn-outline-danger product-category-btn" href="/products/${category.categoryName}">${category.categoryName} </a>
-    </c:forEach>
 </div>
 </body>
 </html>
