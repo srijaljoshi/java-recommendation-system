@@ -5,6 +5,7 @@ import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "users")
@@ -114,6 +115,14 @@ public class User {
         this.address = address;
     }
 
+    public List<Cart> getCart() {
+        return cart;
+    }
+
+    public void setCart(List<Cart> cart) {
+        this.cart = cart;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -129,11 +138,17 @@ public class User {
                 '}';
     }
 
-    public List<Cart> getCart() {
-        return cart;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return Objects.equals(getId(), user.getId());
     }
 
-    public void setCart(List<Cart> cart) {
-        this.cart = cart;
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId());
     }
 }

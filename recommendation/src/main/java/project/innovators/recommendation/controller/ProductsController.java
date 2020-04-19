@@ -2,16 +2,13 @@ package project.innovators.recommendation.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-import project.innovators.recommendation.algorithm.InputData;
 import project.innovators.recommendation.algorithm.SlopeOne;
-import project.innovators.recommendation.model.Product;
-import project.innovators.recommendation.model.ProductCategory;
-import project.innovators.recommendation.model.User;
+import project.innovators.recommendation.model.*;
+import project.innovators.recommendation.service.ICustomerOrderService;
 import project.innovators.recommendation.service.IProductService;
 
 import javax.servlet.http.HttpSession;
@@ -27,7 +24,7 @@ public class ProductsController {
     private SlopeOne slopeOne;
 
     @Autowired
-    private InputData inputData;
+    private ICustomerOrderService customerOrderService;
 
     @GetMapping
     public String index(Model model) {
@@ -45,11 +42,17 @@ public class ProductsController {
         Map<User, HashMap<Product, Double>> predictedProductsMap = SlopeOne.getOutputData();
         User currentUser = (User) session.getAttribute("user");
 
+        // to check if the customer has already ordered the item before. If so don't recommend it
+        List<CustomerOrder> customerOrderList = customerOrderService.findByCustomer(currentUser);
+        List<Product> alreadyPurchased = new ArrayList<>();
+
+
         List<Product> predictedProducts = null; // get top 5 predictions
         LinkedHashMap<Product, Double> sortedMap = new LinkedHashMap<>();
         // transform data to extract relevant products for current user and sort by rating
         for (User user : predictedProductsMap.keySet()) {
             if (user.equals(currentUser)) {
+                System.out.println(">>> Current user is: " + user.getFirstname());
                 HashMap<Product, Double> unsortedMap = predictedProductsMap.get(user);
                 unsortedMap.entrySet()
                         .stream()
@@ -57,7 +60,29 @@ public class ProductsController {
                         .forEachOrdered(x -> sortedMap.put(x.getKey(), x.getValue()));
             }
         }
-        predictedProducts = new ArrayList<>(sortedMap.keySet()).subList(0, 5); // top 5 only
+
+        System.out.println("Ranking by score: ");
+        sortedMap.keySet().stream().forEach(product1 -> System.out.println("Product: " + product1.getName() + "  " + "score: " + sortedMap.get(product1)));
+
+        predictedProducts = new ArrayList<>(sortedMap.keySet()).subList(0, 6); // top 5 only
+
+
+        for (CustomerOrder customerOrder : customerOrderList) {
+            for (CartItem cartItem : customerOrder.getCart().getCartItemList()) {
+                for (int i = 0; i < predictedProducts.size(); i++) {// means already ordered so dont put it in the recommendlist
+                    if (predictedProducts.get(i).equals(cartItem)) {
+                        System.out.println(">>> Removed already purchased item");
+                        predictedProducts.remove(i);
+                    }
+                }
+            }
+        }
+
+        System.out.println(">>> Top 5 recommendations: ");
+        for (Product p : predictedProducts) {
+            System.out.println(String.format("Product: %s Score: %.2f", p.getName(), sortedMap.get(p)));
+        }
+
         model.addAttribute("product", product);
         model.addAttribute("predictedProducts", predictedProducts);
         return "product_details";
@@ -121,7 +146,6 @@ public class ProductsController {
     }
 
     private void updateRecommenderAlgorithm() {
-        Map<User, HashMap<Product, Double>> data = inputData.initializeData();
         slopeOne.slopeOne();
     }
 

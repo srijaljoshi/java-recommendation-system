@@ -13,4 +13,5 @@ public interface ICustomerOrderDao extends JpaRepository<CustomerOrder, Long> {
 
     List<CustomerOrder> getCustomerOrderByCustomer(User customer);
 
+    List<CustomerOrder> findByCustomer(User customer);
 }

@@ -4,6 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import project.innovators.recommendation.dao.ICustomerOrderDao;
 import project.innovators.recommendation.model.CustomerOrder;
+import project.innovators.recommendation.model.User;
+
+import java.util.List;
 
 @Service
 public class CustomerOrderServiceImpl implements ICustomerOrderService {
@@ -19,5 +22,19 @@ public class CustomerOrderServiceImpl implements ICustomerOrderService {
     @Override
     public CustomerOrder findById(Long coId) {
         return customerOrderDao.findCustomerOrderById(coId);
+    }
+
+    @Override
+    public List<CustomerOrder> findByCustomer(User customer) {
+        List<CustomerOrder> customerOrderList = null;
+        try {
+            customerOrderList = customerOrderDao.findByCustomer(customer);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
+        return customerOrderList;
+
+
     }
 }

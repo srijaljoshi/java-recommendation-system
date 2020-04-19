@@ -179,7 +179,7 @@ insert into recommendation.product_rating(user_id, product_id, rating) values (1
 insert into recommendation.product_rating(user_id, product_id, rating) values (1,17,2);
 insert into recommendation.product_rating(user_id, product_id, rating) values (1,18,4);
 insert into recommendation.product_rating(user_id, product_id, rating) values (1,19,4);
-insert into recommendation.product_rating(user_id, product_id, rating) values (1,20,5);
+insert into recommendation.product_rating(user_id, product_id, rating) values (1,20,3);
 insert into recommendation.product_rating(user_id, product_id, rating) values (1,21,3);
 insert into recommendation.product_rating(user_id, product_id, rating) values (1,22,3);
 insert into recommendation.product_rating(user_id, product_id, rating) values (1,23,3);
