@@ -38,6 +38,8 @@ public class ProductsController {
     public String productDetails(@PathVariable("id") long id, Model model, HttpSession session) {
         Product product = productService.findById(id);
 
+        updateRecommenderAlgorithm();
+
         // Algorithms run on homepage
         Map<User, HashMap<Product, Double>> predictedProductsMap = SlopeOne.getOutputData();
         User currentUser = (User) session.getAttribute("user");
@@ -64,19 +66,20 @@ public class ProductsController {
         System.out.println("Ranking by score: ");
         sortedMap.keySet().stream().forEach(product1 -> System.out.println("Product: " + product1.getName() + "  " + "score: " + sortedMap.get(product1)));
 
-        predictedProducts = new ArrayList<>(sortedMap.keySet()).subList(0, 6); // top 5 only
+        predictedProducts = new ArrayList<>(sortedMap.keySet()); // top 5 only
 
 
         for (CustomerOrder customerOrder : customerOrderList) {
             for (CartItem cartItem : customerOrder.getCart().getCartItemList()) {
-                for (int i = 0; i < predictedProducts.size(); i++) {// means already ordered so dont put it in the recommendlist
-                    if (predictedProducts.get(i).equals(cartItem)) {
+                if (predictedProducts.contains(cartItem.getProduct())) {
                         System.out.println(">>> Removed already purchased item");
-                        predictedProducts.remove(i);
+                        predictedProducts.remove(cartItem.getProduct());
                     }
                 }
             }
-        }
+
+
+        predictedProducts = predictedProducts.subList(0, 5);
 
         System.out.println(">>> Top 5 recommendations: ");
         for (Product p : predictedProducts) {
