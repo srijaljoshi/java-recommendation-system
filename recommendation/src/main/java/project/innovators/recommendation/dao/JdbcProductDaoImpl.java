@@ -5,6 +5,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 import project.innovators.recommendation.model.Product;
+import project.innovators.recommendation.model.User;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -20,7 +21,7 @@ public class JdbcProductDaoImpl {
     private IProductDao productDao;
 
 
-    public void saveUploadedProduct(Product product) {
+    public void saveUploadedProduct(Product product, User seller) {
         String categoryName = product.getProductCategory().getCategoryName();
         String brandName = product.getProductBrand().getBrandName();
 
@@ -50,9 +51,9 @@ public class JdbcProductDaoImpl {
 
             // both cateory and brand already exist
             if (cat_id > 0 && brand_id > 0) {
-                String insertsql = "insert into products(description, image_url, price, product_category_id, product_brand_id) " +
+                String insertsql = "insert into products(name, description, image_url, price, product_category_id, product_brand_id) " +
                         "VALUES (?, ?, ?, ?, ?)";
-                db.update(insertsql, product.getDescription(), product.getImageUrl(), product.getPrice(), cat_id, brand_id);
+                db.update(insertsql, product.getName(), product.getDescription(), product.getImageUrl(), product.getPrice(), cat_id, brand_id);
             }
             else if (cat_id > 0) {
                 // insert brand first
@@ -60,18 +61,18 @@ public class JdbcProductDaoImpl {
 
                 db.update("insert into product_brand (brand_name) VALUES (?)", brandName);
 
-                String insertsql = "insert into products(description, image_url, price, product_category_id, product_brand_id) " +
-                        "VALUES (?, ?, ?, ?, (select id from product_brand where brand_name = ?))";
-                db.update(insertsql, product.getDescription(), product.getImageUrl(), product.getPrice(), cat_id, brandName);
+                String insertsql = "insert into products(name, description, image_url, price, product_category_id, product_brand_id) " +
+                        "VALUES (?, ?, ?, ?, ?, (select id from product_brand where brand_name = ?))";
+                db.update(insertsql, product.getName(), product.getDescription(), product.getImageUrl(), product.getPrice(), cat_id, brandName);
             } else if (brand_id > 0){ // cat not in db; only brand
 
                 System.out.println(">>> Cat_id: " + cat_id + " ||| brand_id: " + brand_id);
 
                 db.update("insert into product_category (category_name) VALUES (?)", categoryName);
 
-                String insertsql = "insert into products(description, image_url, price, product_category_id, product_brand_id) " +
-                        "VALUES (?, ?, ?,, ?)";
-                db.update(insertsql, product.getDescription(), product.getImageUrl(), product.getPrice(), categoryName, brand_id);
+                String insertsql = "insert into products(name, description, image_url, price, product_category_id, product_brand_id) " +
+                        "VALUES (?, ?, ?, ?,(select id from product_category where category_name = ?), ?)";
+                db.update(insertsql, product.getName(), product.getDescription(), product.getImageUrl(), product.getPrice(), categoryName, brand_id);
             } else { // none of them in db
                 System.out.println(">>> Using HIbernate#save method to insert");
                 productDao.save(product);
@@ -80,5 +81,6 @@ public class JdbcProductDaoImpl {
             e.printStackTrace();
             System.out.println(">>> In JdbcProductDao#saveUploadedProduct: " + e.getMessage());
         }
+        db.update("insert into product_user(pid, uid) values(?,?)", product.getId(), seller.getId());
     }
 }

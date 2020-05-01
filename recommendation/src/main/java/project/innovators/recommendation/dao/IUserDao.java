@@ -6,6 +6,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import project.innovators.recommendation.model.ProductCategory;
 import project.innovators.recommendation.model.User;
+import project.innovators.recommendation.model.UserCategory;
 
 import java.util.List;
 
@@ -16,12 +17,17 @@ public interface IUserDao extends JpaRepository<User, Long> {
     User findByEmailAndPassword(String email, String password);
 
     //    @Query("SELECT pc FROM Product p INNER JOIN p.productCategory pc  ")
-    @Query(value = "select pc.id, pc.name from product_category pc join products p on pc.id = p.product_category_id join product_user pu on pu.pid = p.id where pu.uid = :user_id", nativeQuery = true)
+    @Query(value = "select pc.id, pc.category_name from product_category pc join products p on pc.id = p.product_category_id join product_user pu on pu.pid = p.id where pu.uid = :user_id", nativeQuery = true)
     List<Object[]> getProductCategoriesBySeller(@Param("user_id") Long id);
 
     @Query("select u from User u where u.userCategory.userType = 'customer'")
     List<User> getCustomers();
 
+    @Query("select u from User u where u.userCategory.userType = ?1")
+    List<User> findByUserCategory(String userCategoryType);
+
+//    @Query("select u from User u where u.email = :?1")
+//    User findByEmail(String email);
 }
 
 

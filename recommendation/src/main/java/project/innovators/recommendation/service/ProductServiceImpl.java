@@ -12,7 +12,9 @@ import project.innovators.recommendation.dao.IProductDao;
 import project.innovators.recommendation.dao.JdbcProductDaoImpl;
 import project.innovators.recommendation.model.Product;
 import project.innovators.recommendation.model.ProductCategory;
+import project.innovators.recommendation.model.User;
 
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -45,10 +47,10 @@ public class ProductServiceImpl implements IProductService {
     }
 
     @Override
-    public int saveProductUploadedBySeller(Product product) {
+    public int saveProductUploadedBySeller(Product product, User seller) {
         try {
             // if category and brand are already in database, no need to save them. instead find their id and link as product's foreign key
-            jdbcProductDao.saveUploadedProduct(product);
+            jdbcProductDao.saveUploadedProduct(product, seller);
 //            productDao.saveProduct(product.getDescription(), product.getImageUrl(), product.getPrice(), product.getProductCategory().getName(), product.getProductBrand().getBrandName());
         } catch (Exception e) {
             logger.error(">>> Can't save Product uploaded by the seller " + product);

@@ -69,4 +69,9 @@ public class UserServiceImpl implements IUserService {
         return customerOrderDao.getCustomerOrderByCustomer(customer);
 
     }
+
+//    @Override
+//    public User findByEmail(String email) {
+//        return userDao.findByEmail(email);
+//    }
 }

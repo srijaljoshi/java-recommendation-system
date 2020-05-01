@@ -9,6 +9,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import project.innovators.recommendation.model.Product;
 import project.innovators.recommendation.model.ProductCategory;
+import project.innovators.recommendation.model.User;
 
 import javax.transaction.Transactional;
 import java.util.List;
@@ -39,4 +40,5 @@ public interface IProductDao extends JpaRepository<Product, Long> {
     @Transactional
     @Query(value = "insert into product_rating(user_id, product_id, rating) values (?1, ?2, ?3)", nativeQuery = true)
     void saveRating(Long userId, Long productId, Integer rating);
+
 }

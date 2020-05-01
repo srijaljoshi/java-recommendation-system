@@ -65,6 +65,8 @@ public class UserController {
 
                 if (user.getUserCategory().getUserType().equalsIgnoreCase("customer")) {
                     session.setAttribute("customer", user);
+                }else if (user.getUserCategory().getUserType().equalsIgnoreCase("seller")) {
+                    session.setAttribute("seller", user);
                 }
 
                 // TODO: Refactor to move cart elsewhere
@@ -184,13 +186,16 @@ public class UserController {
     public String addProductToDatabase(@ModelAttribute("product") Product product,
                                        @ModelAttribute("product_category") ProductCategory category,
                                        @ModelAttribute("product_brand") ProductBrand brand,
-                                       RedirectAttributes flash) {
+                                       RedirectAttributes flash,
+                                       HttpSession session) {
 
         System.out.println(">>> " + product + "\n" + category + "\n" + brand);
         product.setProductBrand(brand);
         product.setProductCategory(category);
         System.out.println(">>> " + product);
-        int savedToDb = productService.saveProductUploadedBySeller(product);
+        User seller = (User) session.getAttribute("seller");
+//        seller = userService.findByEmail(seller.getEmail());
+        int savedToDb = productService.saveProductUploadedBySeller(product, seller);
         if (savedToDb > 0) {//return primary key
             System.out.println(">>> Product uploaded to db");
             flash.addFlashAttribute("uploadMessage", "added product to database");

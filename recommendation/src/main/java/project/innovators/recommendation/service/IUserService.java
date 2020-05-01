@@ -20,4 +20,5 @@ public interface IUserService {
 
     List<CustomerOrder> getCustomerOrders(User customer);
 
+//    User findByEmail(String email);
 }

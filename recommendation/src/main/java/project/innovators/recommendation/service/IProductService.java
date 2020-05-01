@@ -4,6 +4,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import project.innovators.recommendation.model.Product;
 import project.innovators.recommendation.model.ProductCategory;
+import project.innovators.recommendation.model.User;
 
 import java.util.List;
 import java.util.Set;
@@ -16,10 +17,9 @@ public interface IProductService {
 
     Product findById(long id);
 
-    int saveProductUploadedBySeller(Product product);
+    int saveProductUploadedBySeller(Product product, User seller);
 
     List<Product> getProducts();
-
 
     Page<Product> getProductByName(String productName, Integer pageNo, Integer pageSize, String sortBy);
 

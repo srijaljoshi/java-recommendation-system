@@ -8,6 +8,7 @@ import project.innovators.recommendation.dao.IUserDao;
 import project.innovators.recommendation.model.Product;
 import project.innovators.recommendation.model.ProductRating;
 import project.innovators.recommendation.model.User;
+import project.innovators.recommendation.model.UserCategory;
 
 import java.util.*;
 
@@ -19,6 +20,9 @@ public class InputData {
 
     @Autowired
     private IProductRatingDao productRatingDao;
+
+    @Autowired
+    IUserDao userDao;
 
     @Autowired
     private IProductDao productDao;
@@ -33,7 +37,7 @@ public class InputData {
 //        // get all customers
 //        numberOfUsers = customerList.size();
 
-        List<User> customerList = productRatingDao.findDistinctUsers();
+        List<User> customerList = userDao.findByUserCategory("customer");
         HashMap<Product, Double> userRatingMap;
 
         for (User u : customerList) {
